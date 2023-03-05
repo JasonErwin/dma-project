@@ -5,3 +5,4 @@
 /reports/*.fls
 /reports/*.synctex.gz
 /reports/*.xdv
+/reports/*.out

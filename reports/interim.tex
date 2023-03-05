@@ -11,7 +11,7 @@
 \lhead{Data Modelling and Analysis Interim Report}
 \rhead{\thepage}
 
-\title{[Interim Report] What factors are most important for determining the status of a well, and how accurately can we classify wells based on these features? }
+\title{[Interim Report] MACHINE LEARNING APPROACH FOR THE PREDICTION OF THE STATUS OF TANZANIAN WELLS}
 \author{Loo Yang Shen Jason*\\
         jason18501@gmail.com \and Thomas Cotter*\\
         thomascotter00@gmail.com}
@@ -30,13 +30,14 @@ This interim report is a short report that introduces the reader into our propos
 We choose this question because we are interested in the factors that determine the status of a well, and using ML to try to classify these wells into 1 of 3 classes: Functional, Non-Functional \& Functional Needs Repair. From this question, we can think about some follow-up questions. These could include:
     \begin{itemize}
         \item How does the accuracy of the classification model vary with different feature sets and classification algorithms?
-        \item How do the results of the classification model compare with the actual labels, and what information can be learned from this?
+        \item Could we use our results to ensure that wells are built and repaired so that fewer wells are non-functional?
     \end{itemize}
  
+We will be using the dataset from the Tanzanian Ministry of Water, which contains information on the status of wells in Tanzania to answer our research question. This dataset has 59400 rows, with 40 different features. These 40 features could be broken down into three subgroups which hold information regarding: a) Geographic Location of the Wells. b) Management of the wells. and c) Water Condition of the wells. The dataset is originally split into 2 different files, one for labels and one for the actual data. These can be merged easily with pandas through left join on the "ID" column. 
 
-We will be using the dataset from the Tanzanian Ministry of Water, which contains information on the status of wells in Tanzania. We will be using this dataset to answer our research question. This dataset has 59400 rows, with 40 different features. The dataset is split into 2 different files, one for labels and one for the actual data. These can be merged easily with pandas. 
 
-We have done a range of statistical analysis on the dataset, including the value counts and graphical representations of each feature. This can be seen here \url{https://github.com/tomcotter7/dma-project/blob/main/Data\%20Understanding\%20\%26\%20Statistical\%20Analysis.ipynb}
+
+We have done a range of statistical analysis on the dataset, including the value counts and graphical representations of each feature. This can be seen here \url{https://github.com/tomcotter7/dma-project/blob/main/Data%20Understanding%20%26%20Statistical%20Analysis.ipynb}
 
 \section{Data Wrangling \& Pre-Processing}
 
@@ -55,7 +56,9 @@ The missing values in the "Latitude", "Longitude" \& "Population" columns can be
 
 The region column needs to be binned, and this can be done using data from the Tanzanian Water and Santitation Network, which already classifies each region into groups such as "Western Zone" or "Southern Highlands".
 
-The dataset also contains a lot of categorical features, therefore, we must perform feature encoding. Basic label encoding will be used rather than one-hot encoding so that we avoid creating too many features. Finally, some feature engineering will be performed, such as creating a new feature that calculates the age of a well based on the constructed data and the date recorded.
+The dataset also contains a lot of categorical features, therefore, we must perform feature encoding before proceeding with feature selection and modelling. Basic label encoding will be used rather than one-hot encoding to avoid creating too many features which leads to curse of dimensionality. Finally, some feature engineering will be performed, such as creating a new feature that calculates the age of a well based on the constructed data and the date recorded.
+
+
 
 \end{document}
 
