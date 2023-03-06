@@ -1,8 +1,9 @@
-\documentclass{article}
+\documentclass[twocolumn]{article}
 
 \usepackage{fancyhdr}
 \usepackage[top=0in, left=0.5in, right=0.5in, bottom=0.5in]{geometry}
 \usepackage{hyperref}
+\usepackage{graphicx}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -38,6 +39,15 @@ We will be using the dataset from the Tanzanian Ministry of Water, which contain
 
 
 We have done a range of statistical analysis on the dataset, including the value counts and graphical representations of each feature. This can be seen here \url{https://github.com/tomcotter7/dma-project/blob/main/Data%20Understanding%20%26%20Statistical%20Analysis.ipynb}
+
+Fig. \ref{fig:status_groups} shows the distribution of the target variable, which is the status of the well. We can see from this that we might need to oversample the 'functional needs repair' class.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{figures/status_groups.png}
+    \caption{Distribution of the target variable}
+    \label{fig:status_groups}
+\end{figure}
 
 \section{Data Wrangling \& Pre-Processing}
 
