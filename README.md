@@ -2,18 +2,14 @@
 
 This project is based on the Driven Data Competion: [Pump it Up: Data Mining the Water Table](https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table/). It is also for the Data Modelling & Analysis Module (2023) at the University of Nottingham.
 
-
-For now we are using individual testing files to test our code, contained in the `testing-notebooks` folder.
-
-We will also produce multiple .ipynb files that will sit in the root directory. These will be:
+We have also produced multiple .ipynb files that sit in the root directory. These are:
   - (1) Data Understanding & Statistical Analysis
   - (2) Data Wrangling & Preprocessing
-  - (3) EDA & Feature Engineering
-  - (4) Modelling
+  - (3) EDA & Modelling
 
-To understand our process, you should view these in order.
+To understand our process, you should view these in order. Any additional notebooks are assumed to be `testers` or `scratchpads` for the main notebooks.
 
-We will also have a "main" .ipynb file that will be used to run our finalised approach in one .ipynb
+We also have a "Pipeline" .ipynb file that will be used to run our finalised approach in one .ipynb. This notebook provides a main function that takes a test_dataset and model pickle file in order to produce an output compatible with the one provided in DrivenData.
 
 ### Contributors
 
