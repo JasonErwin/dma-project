@@ -1,0 +1,56 @@
+{
+    "os": "Linux-5.15.0-67-generic-x86_64-with-glibc2.29",
+    "python": "3.8.10",
+    "heartbeatAt": "2023-03-23T09:24:03.136603",
+    "startedAt": "2023-03-23T09:23:57.377723",
+    "docker": null,
+    "cuda": null,
+    "args": null,
+    "state": "running",
+    "program": "EDA_AND_Modelling.ipynb",
+    "root": "/home/tcotts/Documents/uni-work/year4/DMA/cw",
+    "git": {
+        "remote": "git@github.com:tomcotter7/dma-project.git",
+        "commit": "eef2d15359f3d85dea26f0c57d4a4b2a8e2af762"
+    },
+    "email": "thomascotter00@gmail.com",
+    "host": "hpspectre",
+    "username": "tcotts",
+    "executable": "/usr/bin/python3",
+    "cpu_count": 2,
+    "cpu_count_logical": 4,
+    "cpu_freq": {
+        "current": 2.4525,
+        "min": 400.0,
+        "max": 3500.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1.11,
+            "min": 400.0,
+            "max": 3500.0
+        },
+        {
+            "current": 2.9,
+            "min": 400.0,
+            "max": 3500.0
+        },
+        {
+            "current": 2.9,
+            "min": 400.0,
+            "max": 3500.0
+        },
+        {
+            "current": 2.9,
+            "min": 400.0,
+            "max": 3500.0
+        }
+    ],
+    "disk": {
+        "total": 274.97378158569336,
+        "used": 257.92059326171875
+    },
+    "memory": {
+        "total": 15.508079528808594
+    }
+}
