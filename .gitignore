@@ -6,3 +6,4 @@
 /reports/*.synctex.gz
 /reports/*.xdv
 /reports/*.out
+**/wandb/
