@@ -7,3 +7,4 @@
 /reports/*.xdv
 /reports/*.out
 **/wandb/
+/catboost_info/
