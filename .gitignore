@@ -8,3 +8,4 @@
 /reports/*.out
 **/wandb/
 /catboost_info/
+potential_features.md
