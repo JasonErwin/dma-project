@@ -6,6 +6,8 @@
 **/*.synctex.gz
 **/*.xdv
 **/*.out
+**/*.bbl
+**/*.blg
 **/wandb/
 /catboost_info/
 potential_features.md
