@@ -58,8 +58,6 @@ We choose this question because we are interested in the factors that determine 
         \item Could we use our results to ensure that wells are built and repaired so that fewer wells are non-functional?
     \end{itemize}
 
-\textbf{Perhaps we could also include a section on the importance of this research or some more dicussion on the research questions?}
-
 \subsection{Dataset}
 
 We will be using the dataset from the Tanzanian Ministry of Water, which contains information on the status of wells in Tanzania to answer our research question. This dataset has 59400 rows, with 40 different features. These 40 features could be broken down into three subgroups which hold information regarding: a) Geographic Location of the Wells. b) Management of the wells. and c) Water Condition of the wells. The dataset is originally split into 2 different files, one for labels and one for the actual data. These can be merged easily with pandas through left join on the "ID" column. 
@@ -76,6 +74,10 @@ Fig. \ref{fig:status_groups} shows the distribution of the target variable, whic
     \label{fig:status_groups}
 \end{figure}
 
+\subsection{Management Structure}
+
+\textbf{Talk about the christmas tree structure of our approach to solving this problem.}
+
 \section{Literature Review}
 
 In this section, we review the relevant literature on predicting machine failure, with a focus on studies that have used similar datasets to Pump It Up. Prediciting machine failure is an important area of reasearch, as it has the potential to reduce downtime and maintenance costs. Some machines may be part of a critical infrastructure, so preventing them from failure is of upmost importance.
@@ -90,7 +92,41 @@ Finally, Celikmih et al \cite{celikmih2020} used classification models to predic
 
 \section{Methodology}
 
-\section{Results}
+\subsection{Data Analysis / Preprocessing}
+
+To perform data analysis, we primarily used the python library Seaborn to create a number of graphs to visualise the data \cite{seaborn}. This library creates much more aesthetically pleasing graphs than matplotlib, and in our opinion is simpler to use. We used this in conjuction with Pandas \cite{pandas}, a python library for advanced data handling. We used the result of our initial data analysis to make decisions for the pre-processsing section (See Results Chapter \ref{ref:results} for detailed results). 
+
+In the pre-processing section, we followed our christmas tree planning approach, working seperatly, and then combining our results. We each tried different techniques for pre-processing to find the best ones. To perform pre-processing, we both used pandas techniques to format the data in the format we wanted. Pandas is fast data manipulation tool, which makes it perfect for this problem.
+
+The final step in our pre-processing step was feature engineering. Again we used the christmas tree approach, each working separately to build new features and coming back together with our ideas. We also used Pandas for this, for it's speed and ease of use.
+
+\subsection{Data Classification}
+
+We used a number of different classification algorithms to classify the data. Initially, we wanted to test the performance of different algorithms to gain an idea of which ones to focus on. The results from this test can be seen in Table. \ref{tab:initial-clf-results}.
+
+\begin{table*}[h]
+  \centering
+  \caption{Initial Classification Results}
+  \label{tab:initial-clf-results}
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{Algorithm} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} \\ \hline
+    XGB	& 0.797811 & 0.751084 & 0.632675 \\
+    \hline
+    CatBoost & 0.794865 & 0.745754 & 0.633800 \\
+    \hline
+    Bagging & 0.793434 & 0.704477 & 0.658841 \\
+    \hline
+    HistGradientBoosting & 0.790909 & 0.743381 & 0.623847 \\
+    \hline
+    DT & 0.756902 & 0.643165 & 0.644585 \\
+    \hline
+    KNN & 0.708754 & 0.623125 & 0.563458 \\
+    \hline
+  \end{tabular}
+\end{table*}
+
+\section{Results} \label{ref:results}
 
 \subsection{Data Analysis}
 
