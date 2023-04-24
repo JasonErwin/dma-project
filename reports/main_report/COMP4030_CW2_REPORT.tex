@@ -62,9 +62,6 @@ We choose this question because we are interested in the factors that determine 
 
 We will be using the dataset from the Tanzanian Ministry of Water, which contains information on the status of wells in Tanzania to answer our research question. This dataset has 59400 rows, with 40 different features. These 40 features could be broken down into three subgroups which hold information regarding: a) Geographic Location of the Wells. b) Management of the wells. and c) Water Condition of the wells. The dataset is originally split into 2 different files, one for labels and one for the actual data. These can be merged easily with pandas through left join on the "ID" column. 
 
-
-We have done a range of statistical analysis on the dataset, including the value counts and graphical representations of each feature. This can be seen here \url{https://github.com/tomcotter7/dma-project/blob/main/Data%20Understanding%20%26%20Statistical%20Analysis.ipynb}. This will also be discussed further in the Results section.
-
 Fig. \ref{fig:status_groups} shows the distribution of the target variable, which is the status of the well. We can see from this that we might need to oversample the 'functional needs repair' class.
 
 \begin{figure}[h]
@@ -77,6 +74,8 @@ Fig. \ref{fig:status_groups} shows the distribution of the target variable, whic
 \subsection{Management Structure}
 
 \textbf{Talk about the christmas tree structure of our approach to solving this problem.}
+
+\textbf{Talk about Author Name comments}
 
 \section{Literature Review}
 
@@ -92,19 +91,30 @@ Finally, Celikmih et al \cite{celikmih2020} used classification models to predic
 
 \section{Methodology}
 
-\subsection{Data Analysis / Preprocessing}
+\subsection{Data Analysis}
 
-To perform data analysis, we primarily used the python library Seaborn to create a number of graphs to visualise the data \cite{seaborn}. This library creates much more aesthetically pleasing graphs than matplotlib, and in our opinion is simpler to use. We used this in conjuction with Pandas \cite{pandas}, a python library for advanced data handling. We used the result of our initial data analysis to make decisions for the pre-processsing section (See Results Chapter \ref{ref:results} for detailed results). 
+When conducting data analysis, the python library Seaborn \cite{seaborn} was our primary data visualization tool. We found that Seaborn produces more visually appealing graphs than those produced by MatPlotLib and the library itself is simpler to use. We used this alongside Pandas \cite{pandas}, a python library for advanced data handling. The results obtained from our initial data analysis guided our pre-processing decisions. (See \ref{ref:results} for detailed results).
 
-In the pre-processing section, we followed our christmas tree planning approach, working seperatly, and then combining our results. We each tried different techniques for pre-processing to find the best ones. To perform pre-processing, we both used pandas techniques to format the data in the format we wanted. Pandas is fast data manipulation tool, which makes it perfect for this problem.
+\subsubsection{Thomas}
 
-The final step in our pre-processing step was feature engineering. Again we used the christmas tree approach, each working separately to build new features and coming back together with our ideas. We also used Pandas for this, for it's speed and ease of use.
+Thomas produced visualizations of the waterpoint \& management type distributions for each decade as well as a line chart plotting count against construction-year. The objective behind these graphs was to determine the possibility of using other values in the dataset to fill in the missing construction year data. This be discussed further in \ref{ref:results}
+
+\subsection{Data Preprocessing}
+
+During the pre-processing phase, we followed our Christmas tree planning approach, working separately before combining our respective results. We each tried different techniques for pre-processing to determine the optimal ones. We both used pandas techniques to format the data in the format we wanted. Pandas is fast data manipulation tool, which makes it perfect for this problem. In this phase, we also implemented feature engineering and data cleaning approaches.
+
+\subsubsection{Thomas}
+
+Thomas initially performed the imputation of the latitude \& longitude missing values by applying mean imputation with a specific approach. Firstly, the data was grouped by 'ward', followed by calculating the mean for the missing lat/lon values. If any NaNs remained (e.g. due to missing 'ward' information), then the data was grouped by 'LGA' and the process repeated. Finally, the data was grouped by 'region', ensuring no missing values were left. The will be discussed further in \ref{ref:results}.
+
+He also looked at the Funder \& Installer columns, which contained 1000s of unique values. In his approach, he decided to group the column into Seven categories: 'Charity', 'Government', 'Local Government', 'Private', 'Religious', 'Foreign' \& 'School'. This was done to simplify the dataset, making it easier for the model to learn the distribution. Finally, Thomas also used the SMOTE-ENN algorithm from imblearn \cite{smote-enn}, to balanced the imbalance in the 'Functional - Needs Repair' class. Imbalanced datasets could potentially affect model performance, especially in tree-based models.
+
 
 \subsection{Data Classification}
 
-We used a number of different classification algorithms to classify the data. Initially, we wanted to test the performance of different algorithms to gain an idea of which ones to focus on. The results from this test can be seen in Table. \ref{tab:initial-clf-results}.
+ To classify the data, we utilized various classification algorithms. Initially, our focus was on testing the performance of different algorithms without any feature selection. This would allows us to focus on the best performing ones. The results from this test can be seen in Table. \ref{tab:initial-clf-results}. From these results, we can see that XGBoostClassifier, CatBoostClassifier, BaggingClassifier \& HistGradientBoostingClassifier were the most effective for our problem. We decided to fully explore these models using feature selection \& hyper-parameter tuning. Our feature selection process employed a Chi-Squared test and feature importance obtained from a RandomForest to generate a subset of potential features.
 
-\begin{table*}[h]
+\begin{table}[h]
   \centering
   \caption{Initial Classification Results}
   \label{tab:initial-clf-results}
@@ -124,7 +134,12 @@ We used a number of different classification algorithms to classify the data. In
     KNN & 0.708754 & 0.623125 & 0.563458 \\
     \hline
   \end{tabular}
-\end{table*}
+\end{table}
+
+
+\subsubsection{Thomas}
+
+Initially, Thomas followed on from the decision to balance the dataset. He trained the 4 top models (XGBoost, CatBoost, Bagging \& HGBoost) on the balanced dataset and compared the results to models trained on the unbalanced dataset. The results can be seen in \ref{ref:results}. Furthermore, he used Weights and Biases (WandB) \cite{wandb} to further analyse the subset of features produced by the Chi-Squared Test and RandomForest.  WandB provided an easy-to-use MLOps platform for tracking our experiments and helped us understand which features worked best for each classifier. He trained multiple classifiers on different subsets of the feature set (ranging from sizes 0.75N to N, where N is the size of the original feature set), and tracked this information in WandB. WandB allows us to quickly filter for the best performing 'runs', and find out which feature set was used in this run. He also used WandB to further analyse the results of our cross-validation hyper-parameter tuning, in much a similar process to feature selection.
 
 \section{Results} \label{ref:results}
 
