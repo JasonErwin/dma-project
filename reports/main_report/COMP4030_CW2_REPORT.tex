@@ -7,11 +7,12 @@
 \usepackage{algorithmic}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
-\usepackage{subfig}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{caption}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -73,9 +74,14 @@ Fig. \ref{fig:status_groups} shows the distribution of the target variable, whic
 
 \subsection{Management Structure}
 
-\textbf{Talk about the christmas tree structure of our approach to solving this problem.}
+One of the requirements of this project was to work separately within our pairs and try different approaches to the problem. This idea only works if we communicate the results found within our approaches to each other periodically so that we don't lose important insights that could combine well together. We took the three stages, 'Data Analysis', 'Data Preprocessing' \& 'Data Classification' and followed a 'Chistmas Tree'-like management approach. This means for section, we performed our own analysis, before combining our results before moving onto the next section. This was also done cyclically, for example when we re-examined the Preprocessing step in order to improve classification results. See Fig. \ref{fig:management_structure} for more details
 
-\textbf{Talk about Author Name comments}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.35]{figures/ct_approach.png}
+    \caption{Management Structure}
+    \label{fig:management_structure}
+\end{figure}
 
 \section{Literature Review}
 
@@ -166,8 +172,39 @@ To evaluate the performance of each model, Jason used three different evaluation
 
 \section{Results} \label{ref:results}
 
+This section discusses the results obtain from each of the three stages, namely Data Analysis, Data Preprocessing and Data Classification. We will detail the results from each of our different approaches.
+
 \subsection{Data Analysis}
 
+\subsubsection{Thomas}
+
+As mentioned in the methodology section. Thomas produced a number of visualisations to help understand the construction year feature. These can be seen in Fig. \ref{fig:construction_year}. From these, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. For this reason, the missing values in the Construction year were kept as 'Unknown'. Keeping the values as unknown could provide the models with additional information, depending on the distribution of non-functional wells with a 'Unknown' value. \textbf{Possibly something we should plot?}.
+
+
+\begin{figure*}[t!]
+    \centering
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[height=3in]{figures/tom_da_construction_year_1}
+        \caption{Waterpoint Type Distribution by Construction Decade}
+    \end{subfigure}%
+    ~ 
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[height=3in]{figures/tom_da_construction_year_2}
+        \caption{Management Type Distribution by Construction Decade}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[height=3in]{figures/tom_da_construction_year_3}
+        \caption{Count vs Construction Year}
+    \end{subfigure}
+    ~
+    \caption{Construction Year Data Analysis}
+    \label{fig:construction_year}
+\end{figure*}
+    
 \subsection{Data Preprocessing}
 
 \subsection{Classification}
