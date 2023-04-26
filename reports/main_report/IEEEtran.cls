@@ -91,7 +91,7 @@
 %    anonymous peer review. The paper title (without the author names) is
 %    repeated at the top of the page after the cover page. For peer review
 %    papers, the \IEEEpeerreviewmaketitle command must be executed (will
-%    automatically be ignored for nonpeerreview modes) at the place the
+%    automatically be ignored for non-peerreview modes) at the place the
 %    cover page is to end, usually just after the abstract (keywords are
 %    not normally used with peer review papers). peerreviewca is like
 %    peerreview, but allows the author names to be entered and formatted
@@ -6345,4 +6345,3 @@ Use \@IEEEbackslash #2 instead.}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% End of IEEEtran.cls  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % That's all folks!
 
--
