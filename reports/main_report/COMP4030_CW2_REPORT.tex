@@ -13,6 +13,9 @@
 \usepackage{hyperref}
 \usepackage{subcaption}
 \usepackage{caption}
+\usepackage{multirow}
+\usepackage{float}
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -89,11 +92,11 @@ In this section, we review the relevant literature on predicting machine failure
 
 One study by Pathak et al. (2023) \cite{pathak2023pump} compared the performance of TabNet, a sequential attentive classification architecutre designed for tabular data, and tree-based approaches such as XBBoost. They found that TabNet outpeformed XGBoost, boasting an 83\% accuracy compared to XGBoosts 78\%. TabNet makes use of Transformers, a machine learning algorithm which uses self-attention to differentially weight the significance of each part of the input. A point of note is that TabNet does not require feature engineering to perform at these standards. While TabNet is an interesting solution, we have not used it in our report, as our primary goal was to showcase an end-to-end machine learning solution, and this includes feature enginering.
 
-Jabeur et al \cite{JABEUR2021} conducted a detailed review of different algorithms for predicting financial distress, including, SVMs, Neural Networks, RandomForest, XGBoost \& CatBoost. They found that the ensemble methods worked the most effectively (RandomForest, XGBoost \& CatBoost). Ensemble methods combine multiple models in order to improve accuracy. 
+Pham et al studied fully connected neural networks on the Pump it Up dataset \cite{Pham_2018}, settling on a model with 7 hidden layers and cross-entropy loss as the loss function. Their trained model achieved a 78.6\% accuracy rate on the test dataset. Although our project has prioritized tree-based methods for their speed, it would be interesting to compare our results with those of a neural network.
 
-Similary, Mahabub \cite{Mahabub2020} investigated the effectiveness of ensemble methods to detect fake news. They found that combining different classification methods into a Ensemble Voting Classifier produced the best results.
+Jithin Paul also undertook a study on the Pump it Up dataset, experimenting with different models to test for the best reulsts \cite{Paul_2023}. He proposed four methods, RandomForest, DeepLearning, LogisticRegression \& AdaBoost. The results showed that RandomForest, with 120 trees, was the most accurate model, achieving a mean accuracy of 81.18\% on the test dataset. This finding demonstrates that tree-based models perform exceptionally well on this dataset, which motivated us to use more sophisticated tree-based methods in our own work.
 
-Finally, Celikmih et al \cite{celikmih2020} used classification models to predict the failure of aircraft equipment and employed the ReliefF feature selection algorithm. This algorithm estimates feature weights iteratively, according to their ability to make a distinction between neighboring models. They used this to select the best subset of features to feed into their classification model, resulting in the best performance.
+Mahabub \cite{Mahabub2020} investigated the effectiveness of ensemble methods to detect fake news. They found that combining different classification methods into a Ensemble Voting Classifier produced the best results. We took this information and applied it to our problem, implementing a Voting Classifier to determine it's suitability for our problem.
 
 \section{Methodology}
 
@@ -160,7 +163,7 @@ The data set provided had feature and target variables in the form of categorica
 
 \subsubsection{Thomas}
 
-Initially, Thomas followed on from the decision to balance the dataset. He trained the 4 top models (XGBoost, CatBoost, Bagging \& HGBoost) on the balanced dataset and compared the results to models trained on the unbalanced dataset. The results can be seen in \ref{ref:results}. Furthermore, he used Weights and Biases (WandB) \cite{wandb} to further analyse the subset of features produced by the Chi-Squared Test and RandomForest.  WandB provided an easy-to-use MLOps platform for tracking our experiments and helped us understand which features worked best for each classifier. He trained multiple classifiers on different subsets of the feature set (ranging from sizes 0.75N to N, where N is the size of the original feature set), and tracked this information in WandB. WandB allows us to quickly filter for the best performing 'runs', and find out which feature set was used in this run. He also used WandB to further analyse the results of our cross-validation hyper-parameter tuning, in much a similar process to feature selection.
+Initially, Thomas followed on from the decision to balance the dataset. He trained the 4 top models (XGBoost, CatBoost, Bagging \& HGBoost) on the balanced dataset and compared the results to models trained on the unbalanced dataset. The results were also compared when optimizing for 'recall\_macro' or 'accuracy'. The results can be seen in \ref{ref:results}. Furthermore, he used Weights and Biases (WandB) \cite{wandb} to further analyse the subset of features produced by the Chi-Squared Test and RandomForest.  WandB provided an easy-to-use MLOps platform for tracking our experiments and helped us understand which features worked best for each classifier. He trained multiple classifiers on different subsets of the feature set (ranging from sizes 0.75N to N, where N is the size of the original feature set), and tracked this information in WandB. WandB allows us to quickly filter for the best performing 'runs', and find out which feature set was used in this run. He also used WandB to further analyse the results of our cross-validation hyper-parameter tuning, in much a similar process to feature selection.
 
 \subsubsection{Jason}
 
@@ -178,36 +181,161 @@ This section discusses the results obtain from each of the three stages, namely 
 
 \subsubsection{Thomas}
 
-As mentioned in the methodology section. Thomas produced a number of visualisations to help understand the construction year feature. These can be seen in Fig. \ref{fig:construction_year}. From these, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. For this reason, the missing values in the Construction year were kept as 'Unknown'. Keeping the values as unknown could provide the models with additional information, depending on the distribution of non-functional wells with a 'Unknown' value. \textbf{Possibly something we should plot?}.
+As mentioned in the methodology section. Thomas produced a number of visualisations to help understand the construction year feature. One example of these can be seen in Fig. \ref{fig:construction_year}. From these, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. For this reason, the missing values in the Construction year were kept as 'Unknown'. The distribution of the status group values within instances with 'Unknown' or 'Not Unknown' can be seen in Fig \ref{fig:construction_year_2}.
 
 
-\begin{figure*}[!htbp]
+\begin{figure*}[t!]
     \centering
-    \begin{subfigure}[t]{0.5\textwidth}
-        \centering
-        \includegraphics[height=3in]{figures/tom_da_construction_year_1}
-        \caption{Waterpoint Type Distribution by Construction Decade}
-    \end{subfigure}%
-    ~ 
-    \begin{subfigure}[t]{0.5\textwidth}
-        \centering
-        \includegraphics[height=3in]{figures/tom_da_construction_year_2}
-        \caption{Management Type Distribution by Construction Decade}
-    \end{subfigure}
-    ~
-    \begin{subfigure}[t]{0.5\textwidth}
-        \centering
-        \includegraphics[height=3in]{figures/tom_da_construction_year_3}
-        \caption{Count vs Construction Year}
-    \end{subfigure}
-    ~
+    \includegraphics[height=4in]{figures/tom_da_construction_year_1}
     \caption{Construction Year Data Analysis}
     \label{fig:construction_year}
+\end{figure*}
+
+\begin{figure*}[t!]
+  \centering
+  \includegraphics[height=1.5in]{figures/tom_unknown_cy.png}
+  \caption{Construction Year Unknown vs Construction Year Known}
+  \label{fig:construction_year_2}
 \end{figure*}
     
 \subsection{Data Preprocessing}
 
+\subsubsection{Thomas}
+
+Initially, the imputation of missing values was required. Thomas looked at imputing the missing values in the Latitude and Longitude feature. The results can be seen in Fig. \ref{fig:lat_long_imputation}.
+
+\begin{figure*}[t!]
+  \centering
+  \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=2.25in]{figures/tom_impute_lat_1}
+      \caption{Pre-Imputation Latitude \& Longitude}
+  \end{subfigure}%
+  ~
+  \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=2.25in]{figures/tom_impute_lat_2}
+      \caption{Post-Imputation Latitude \& Longitude}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=2.25in]{figures/tom_impute_lat_3}
+      \caption{Imputated Latitude \& Longitude Overlayed onto a map of Tanzania}
+  \end{subfigure}
+  ~
+  \caption{Latitude \& Longitude Imputation}
+  \label{fig:lat_long_imputation}
+\end{figure*}
+
+Secondly, as mentioned the Installer and Funder columns had 1000s of unique values. There was also crossover between the values in the two columns. For this reason, Thomas decided to group the values together. This was performed manually using his own knowledge on the subject and the internet. The result was 8 categories, the counts for each of those categories in both the Funder \& Installer column can be seen in Table \ref{tab:funder_installer_categories}. These categorized versions of the features proved to provide some benefit to the model when testing the subset of features to use in WandB.
+
+\begin{table}[h]
+  \centering
+  \caption{Funder \& Installer Categories}
+  \label{tab:funder_installer_categories}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Column & Category & Count \\
+    \hline
+    \multirow{8}{*}{Funder} & Government & 20199 \\
+    & Charity & 11066 \\
+    & Unknown & 8216 \\
+    & Foreign Aid & 8131 \\
+    & Religious & 4087 \\
+    & Private & 3889 \\
+    & Local Government & 3774 \\
+    & School & 38 \\
+    \hline
+    \multirow{8}{*}{Installer} & Local Government & 22515 \\
+    & Government & 10327 \\
+    & Unknown & 8800 \\
+    & Charity & 7487 \\
+    & Private & 3853 \\
+    & Foreign Aid & 3346 \\
+    & Religious & 3046 \\
+    & School & 26 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Finally, as metioned Thomas used the SMOTE-ENN algorithm to oversample the minority class. The results of this can be seen in Fig. \ref{fig:smote}. 
+
+\begin{figure*}[t!]
+  \centering
+  \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=2.25in]{figures/tom_smote_1}
+      \caption{Pre-Oversampling Class Distribution}
+  \end{subfigure}%
+  ~
+  \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=2.25in]{figures/tom_smote_2}
+      \caption{Post-Oversampling Class Distribution}
+  \end{subfigure}
+  ~
+  \caption{SMOTE-ENN Oversampling}
+  \label{fig:smote}
+\end{figure*}
+
 \subsection{Classification}
+
+\subsubsection{Thomas}
+
+Post hyper-parameter tuning, metrics including accuracy, precision ('macro'), recall ('macro') and f1-score were calculated for each of the models. The models were tested on both the imbalanced and SMOTE-ENN balanced dataset. The results can be seen in Table \ref{tab:classification_results}
+
+\begin{table*}[t]
+  \centering
+  \caption{Classification Results}
+  \label{tab:classification_results}
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    \textbf{Scoring} & \textbf{Dataset} & \textbf{Model} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} \\
+    \hline
+    \multirow{2}{*}{Recall Macro} & \multirow{4}{*}{Balanced} & XGBoost & 0.802 & 0.701 & 0.668 & 0.683 \\
+    & & CatBoost & 0.783 & 0.669 & 0.660 & 0.664 \\
+    & & HistGradientBoosting & 0.796 & 0.693 & 0.665 & 0.677 \\
+    & & BaggingClassifier & 0.803 & 0.703 & 0.676 & 0.687 \\
+    \cline{2-7}
+    & \multirow{4}{*}{Imbalanced} & XGBoost & 0.804 & 0.720 & 0.662 & 0.683 \\
+    & & CatBoost & 0.791 & 0.697 & 0.652 & 0.668 \\
+    & & HistGradientBoosting & 0.806 & 0.730 & 0.658 & 0.681 \\
+    & & BaggingClassifier & 0.803 & 0.722 & 0.660 & 0.681 \\
+    \hline
+    \multirow{2}{*}{Accuracy} & \multirow{4}{*}{Balanced} & XGBoost & 0.800 & 0.700 & 0.662 &  0.677 \\
+    & & CatBoost & 0.787 & 0.678 & 0.665 & 0.670 \\
+    & & HistGradientBoosting & 0.797 & 0.699 & 0.666 & 0.680 \\
+    & & BaggingClassifier & 0.801 & 0.701 & 0.671 & 0.684 \\
+    \cline{2-7}
+    & \multirow{4}{*}{Imbalanced} & XGBoost & 0.804 & 0.748 & 0.648 & 0.676 \\
+    & & CatBoost & 0.797 & 0.753 & 0.635 & 0.665\\
+    & & HistGradientBoosting & 0.806 & 0.733 & 0.662 & 0.686 \\
+    & & BaggingClassifier & 0.811 & 0.741 & 0.656 & 0.681 \\
+    \hline
+  \end{tabular}
+\end{table*}
+
+Since the difference between different models and datasets is neglible (the imbalanced dataset actually perfoming better in some cases), Thomas decided to combine all the models to create a VotingClassifier to possibly squeeze out some extra performance. These results can be seen in Table \ref{tab:voting_classification_results}
+
+\begin{table}[H]
+  \centering
+  \caption{Voting Classifier Results}
+  \label{tab:voting_classification_results}
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    Accuracy & Precision & Recall & F1-Score \\
+    \hline
+    0.810 & 0.759 & 0.650 & 0.679 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Using both the results from model based feature selection, and feature selection after looking at the results from Weights \& Biases, Thomas decided to use the following features in his final model: \textbf{'age'}, \textbf{'latitude\_imputation'}, \textbf{'longitude\_imputation'}, \textbf{'construction\_decade'}, \textbf{'quality\_group'}, \textbf{'basin'}, \textbf{'extraction\_type'}, \textbf{'cat\_installer'}, \textbf{'population'}, \textbf{'gps\_height\_zscorenormalise'}, \textbf{'cat\_funder'}, \textbf{'quantity'}, \textbf{'consistent\_water'}, \textbf{'source\_class'}, \textbf{'zones'}, \textbf{'waterpoint\_type'}, \textbf{'season'}, \textbf{'extraction\_type\_class'}, \textbf{'payment'}.
+
+To relate this back to our research questions, we can say that these features are the most important when looking at whether wells are functional or not.We can also say we can classify whether a well is function or not with 81\% accuracy.
+
+
 
 \section{Discussion}
 
