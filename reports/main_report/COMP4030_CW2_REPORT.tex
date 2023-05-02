@@ -181,22 +181,28 @@ This section discusses the results obtain from each of the three stages, namely 
 
 \subsubsection{Thomas}
 
-As mentioned in the methodology section. Thomas produced a number of visualisations to help understand the construction year feature. One example of these can be seen in Fig. \ref{fig:construction_year}. From these, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. For this reason, the missing values in the Construction year were kept as 'Unknown'. The distribution of the status group values within instances with 'Unknown' or 'Not Unknown' can be seen in Fig \ref{fig:construction_year_2}.
+As mentioned in the methodology section. Thomas produced a number of visualisations to help understand the construction year feature. One example of these can be seen in Fig. \ref{fig:construction_year}. From these, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. For this reason, the missing values in the Construction year were kept as 'Unknown'. The distribution of the status group values within instances with 'Unknown' or 'Not Unknown' can be seen in Fig \ref{fig:construction_year}
 
 
 \begin{figure*}[t!]
     \centering
-    \includegraphics[height=4in]{figures/tom_da_construction_year_1}
+    \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=3in]{figures/tom_da_construction_year_1}
+      \caption{Waterpoint Type vs Construction Year}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=2in]{figures/tom_unknown_cy.png}
+      \caption{Construction Year Unknown vs Construction Year Known}
+    \end{subfigure}
+    ~
     \caption{Construction Year Data Analysis}
     \label{fig:construction_year}
 \end{figure*}
 
-\begin{figure*}[t!]
-  \centering
-  \includegraphics[height=1.5in]{figures/tom_unknown_cy.png}
-  \caption{Construction Year Unknown vs Construction Year Known}
-  \label{fig:construction_year_2}
-\end{figure*}
+
     
 \subsection{Data Preprocessing}
 
@@ -336,8 +342,11 @@ Using both the results from model based feature selection, and feature selection
 To relate this back to our research questions, we can say that these features are the most important when looking at whether wells are functional or not.We can also say we can classify whether a well is function or not with 81\% accuracy.
 
 
-
 \section{Discussion}
+
+In this section, we discuss the results of our analysis. We compare each of our separate approaches to each other, as well as comparing them to the performance of models in the literature.
+
+\subsubsection{Tom}
 
 \section{Conclusion}
 
