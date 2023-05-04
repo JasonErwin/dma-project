@@ -48,13 +48,11 @@ hfyyl5@nottingham.ac.uk}
 
 \section{Introduction}
 
-This section will provide an introduction to the dataset and the research questions we have attempted to solve.
-
 \subsection{Research Questions}
 
 \textbf{What factors are most important for determining the status of a well, and how accurately can we classify wells based on these features?}. 
 
-We choose this question because we are interested in the factors that determine the status of a well, and using ML to try to classify these wells into 1 of 3 classes: Functional, Non-Functional \& Functional Needs Repair. From this question, we can think about some follow-up questions. These could include:
+We choose this question because we are interested in the factors that determine the status of a well, and using ML to try to classify these wells into 1 of 3 classes: Functional, Non-Functional \& Functional Needs Repair. Follow-up questions to this question could include:
     \begin{itemize}
         \item How does the accuracy of the classification model vary with different feature sets and classification algorithms?
         \item Could we use our results to ensure that wells are built and repaired so that fewer wells are non-functional?
@@ -62,7 +60,7 @@ We choose this question because we are interested in the factors that determine 
 
 \subsection{Dataset}
 
-We will be using a dataset from the Tanzanian Ministry of Water, which contains information on the status of wells in Tanzania. This dataset has 59400 rows, with 40 different features. These 40 features could be broken down into three subgroups which hold information regarding: a) Geographic Location of the Wells. b) Management of the wells. and c) Water Condition of the wells. The dataset is originally split into 2 different files, one for labels and one for the actual data. These can be merged easily with pandas through left join on the "ID" column. 
+The chosen dataset is from the Tanzanian Ministry of Water and contains information on the status of wells in Tanzania. This dataset has 59400 rows, with 40 different features. These 40 features could be broken down into three subgroups: a) Geographic Location of the Wells. b) Management of the wells. and c) Water Condition of the wells. The dataset is originally split into 2 different files, one for labels and one for the actual data. These can be merged easily with pandas through left join on the "ID" column. 
 
 Fig. \ref{fig:status_groups} shows the distribution of the target variable, which is the status of the well. We can see from this that we might need to oversample the 'functional needs repair' class, due to class imbalance.
 
@@ -75,7 +73,7 @@ Fig. \ref{fig:status_groups} shows the distribution of the target variable, whic
 
 \subsection{Management Structure}
 
-One of the requirements of this project was to work separately within our pairs and try different approaches to the problem. This idea only works if we communicate the results found within our approaches to each other periodically so that we don't lose important insights that could combine well together. We took the three stages, 'Data Analysis', 'Data Preprocessing' \& 'Data Classification' and followed a 'Chistmas Tree'-like management approach. This means for section, we performed our own analysis, before combining our results and moving onto the next section. This was also done cyclically, for example when we re-examined the Preprocessing step in order to improve classification results. See Fig. \ref{fig:management_structure} for more details
+A requirement of this project was to work separately within our pairs and try different techniques to solve the problem. In order to not lost important insights, we communicated the our found results periodically. We took the three stages, 'Data Analysis', 'Data Preprocessing' \& 'Data Classification' and followed a 'Chistmas Tree'-like management approach. This means for section, we performed our own analysis, before combining our results and moving onto the next section. This was also done cyclically, for example when we re-examined the Preprocessing step in order to improve classification results. See Fig. \ref{fig:management_structure} for more details
 
 \begin{figure}[h]
     \centering
@@ -84,23 +82,21 @@ One of the requirements of this project was to work separately within our pairs 
     \label{fig:management_structure}
 \end{figure}
 
-This results in a number of benefits. Firstly, it allows us to research a large number of approaches, which provides a higher chance of finding a powerful approach. Secondly, the combination of approaches that resulted might have never happened when working individually. This might provide more optimal results.
+This results in a number of benefits. Firstly, it allows us to research a large number of approaches, which provides a higher chance of finding a powerful approach. Secondly, the combination of approaches that resulted might have never happened when working individually, which may provide more optimal results. 
 
 \section{Literature Review}
 
-In this section, we review the relevant literature on predicting machine failure, with a focus on studies that have used the Pump It Up dataset.
-
-One study by Pathak et al. (2023) \cite{pathak2023pump} compared the performance of TabNet, a sequential attentive classification architecutre designed for tabular data, and tree-based approaches such as XBBoost. They found that TabNet outpeformed XGBoost, boasting an 83\% accuracy compared to XGBoosts 78\%. TabNet makes use of Transformers, a machine learning algorithm which uses self-attention to differentially weight the significance of each part of the input. A point of note is that TabNet does not require feature engineering to perform at these standards. While TabNet is an interesting solution, we have not used it in our report, as our primary goal was to showcase an end-to-end machine learning solution, and this includes feature enginering.
+One study by Pathak et al. (2023) \cite{pathak2023pump} compared the performance of TabNet, a sequential attentive classification architecutre designed for tabular data, and tree-based approaches such as XBBoost. They found that TabNet outpeformed XGBoost, boasting an 83\% accuracy compared to XGBoosts 78\%. TabNet makes use of Transformers, a machine learning algorithm which uses self-attention to differentially weight the significance of each part of the input. A point of note is that TabNet does not require feature engineering to perform at these standards. We have not used TabNet in our report, as our primary goal was to showcase an end-to-end machine learning solution, and this includes feature enginering. However, it provides an interesting comparision.
 
 Pham et al studied fully connected neural networks on the Pump it Up dataset \cite{Pham_2018}, settling on a model with 7 hidden layers and cross-entropy loss as the loss function. Their trained model achieved a 78.6\% accuracy rate on the test dataset. Although our project has prioritized tree-based methods for their speed, it would be interesting to compare our results with those of a neural network.
 
-Jithin Paul also undertook a study on the Pump it Up dataset, experimenting with different models to test for the best reulsts \cite{Paul_2023}. He proposed four methods, RandomForest, DeepLearning, LogisticRegression \& AdaBoost. The results showed that RandomForest, with 120 trees, was the most accurate model, achieving a mean accuracy of 81.18\% on the test dataset. This finding demonstrates that tree-based models perform exceptionally well on this dataset, which motivated us to use more sophisticated tree-based methods in our own work.
+Jithin Paul also undertook a study on the Pump it Up dataset, experimenting with different models to test for the best results \cite{Paul_2023}. He proposed four methods, RandomForest, DeepLearning, LogisticRegression \& AdaBoost. The results showed that RandomForest, was the most accurate model, achieving a mean accuracy of 81.18\% on the test dataset. This finding demonstrates that tree-based models perform exceptionally well on this dataset, which motivated us to use more sophisticated tree-based methods in our own work.
 
 \section{Methodology}
 
 \subsection{Data Analysis}
 
-When conducting data analysis, the python library Seaborn \cite{seaborn} was our primary data visualization tool. We found that Seaborn produces more visually appealing graphs than those produced by MatPlotLib and the library itself is simpler to use. The results obtained from our initial data analysis guided our pre-processing decisions. (See \ref{ref:results} for detailed results).
+When conducting data analysis, the python library Seaborn \cite{seaborn} was our primary data visualization tool. We found that Seaborn produces more visually appealing graphs than those produced by MatPlotLib and the library itself is simpler to use.
 
 \subsubsection{Thomas}
 
@@ -112,13 +108,13 @@ Jason checked the number of missing and unique values across 38 features provide
 
 \subsection{Data Preprocessing}
 
-During the pre-processing phase, we followed our Christmas tree planning approach, working separately before combining our respective results. We each tried different techniques for pre-processing to determine the optimal ones.
-
 \subsubsection{Thomas}
 
 Thomas initially performed the imputation of the latitude \& longitude missing values by applying mean imputation with a specific approach. The data was grouped by 'ward', 'lga' and then 'region'. This ensured that any missing values in either 'ward' or 'lga' did not result in missing lat / lon values. This also provides more accurate results than just 'regular' mean imputation, as the imputed values are localised.
 
-He also looked at the Funder \& Installer columns, which contained 1000s of unique values. In his approach, he decided to group the column into Seven categories: 'Charity', 'Government', 'Local Government', 'Private', 'Religious', 'Foreign' \& 'School'. This was done to simplify the dataset, making it easier for the model to learn the distribution. Finally, Thomas also used the SMOTE-ENN algorithm from imblearn \cite{smote-enn}, to balanced the imbalance in the 'Functional - Needs Repair' class. Imbalanced datasets could potentially affect model performance, especially in tree-based models.
+He also looked at the Funder \& Installer columns, which contained 1000s of unique values. In his approach, he decided to group the column into categories: 'Charity', 'Government', 'Local Government', 'Private', 'Religious', 'Foreign', 'School' \& 'Unknown'. This was done to simplify the dataset, making it easier for the model to learn the distribution. Since, the columns had crossover between the values, this can be done in 1 step.
+
+Finally, Thomas also used the SMOTE-ENN algorithm from imblearn \cite{smote-enn}, to balanced the imbalance in the 'Functional - Needs Repair' class. Imbalanced datasets could potentially affect model performance, especially in tree-based models.
 
 Finaly, 'gps-height' was normalised using a custom MinMaxScaler and a custom Z-Score Scaler. This was due to the prevelence of outliers in the 'gps-height' feature.
 
@@ -136,7 +132,7 @@ The data set provided had feature and target variables in the form of categorica
 
 \subsection{Data Classification}
 
- To classify the data, we utilized various classification algorithms. Initially, our focus was on testing the performance of different algorithms without any feature selection. This would allows us to focus on the best performing ones. The results from this test can be seen in Table. \ref{tab:initial-clf-results}. From these results, we can see that XGBoostClassifier, CatBoostClassifier, BaggingClassifier \& HistGradientBoostingClassifier were the most effective for our problem. We decided to fully explore these models using feature selection \& hyper-parameter tuning. Our feature selection process employed a Chi-Squared test and feature importance obtained from a RandomForest.
+Initially, our focus was on testing the performance of different algorithms without any feature selection. This would allows us to focus on the best performing ones. The results can be seen in Table. \ref{tab:initial-clf-results}. From these, we can see that XGBoostClassifier, CatBoostClassifier, BaggingClassifier \& HistGradientBoostingClassifier were the most effective for our problem. We decided to explore these models using feature selection \& hyper-parameter tuning. Our feature selection process employed a Chi-Squared test and feature importances obtained from a RandomForest and a XGBoost.
 
 \begin{table}[h]
   \centering
@@ -145,17 +141,17 @@ The data set provided had feature and target variables in the form of categorica
   \begin{tabular}{|c|c|c|c|}
     \hline
     \textbf{Algorithm} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} \\ \hline
-    XGB	& 0.797811 & 0.751084 & 0.632675 \\
+    XGB	& \textbf{0.799} & \textbf{0.751} & 0.633 \\
     \hline
-    CatBoost & 0.794865 & 0.745754 & 0.633800 \\
+    CatBoost & 0.795 & 0.746 & 0.634 \\
     \hline
-    Bagging & 0.793434 & 0.704477 & 0.658841 \\
+    Bagging & 0.793 & 0.704 & \textbf{0.659} \\
     \hline
-    HistGradientBoosting & 0.790909 & 0.743381 & 0.623847 \\
+    HistGradientBoosting & 0.791 & 0.743 & 0.624 \\
     \hline
-    DT & 0.756902 & 0.643165 & 0.644585 \\
+    DT & 0.757 & 0.643 & 0.645 \\
     \hline
-    KNN & 0.708754 & 0.623125 & 0.563458 \\
+    KNN & 0.709 & 0.623 & 0.563 \\
     \hline
   \end{tabular}
 \end{table}
@@ -163,7 +159,9 @@ The data set provided had feature and target variables in the form of categorica
 
 \subsubsection{Thomas}
 
-Initially, Thomas followed on from the decision to balance the dataset. He trained the 4 top models (XGBoost, CatBoost, Bagging \& HGBoost) on the balanced dataset and compared the results to models trained on the unbalanced dataset. The results were also compared when optimizing for 'recall\_macro' or 'accuracy'. The reason for this is that recall is usually a better metric for imbalanced datasets, as accuracy can often misrepresent the truth. 'recall\_macro' takes an average of the recall for all 3 classes, which makes it a good metric to use. Furthermore, he used Weights and Biases (WandB) \cite{wandb} to further analyse the subset of features produced by the Chi-Squared Test and RandomForest.  WandB provided an easy-to-use MLOps platform for tracking our experiments and helped us understand which features worked best for each classifier. He trained multiple classifiers on different subsets of the feature set (ranging from sizes 0.75N to N, where N is the size of the original feature set), and tracked this information in WandB. WandB allows us to quickly filter for the best performing 'runs', and find out which feature set was used in this run. He also used WandB to further analyse the results of his cross-validation hyper-parameter tuning, in much a similar process to feature selection.
+Thomas trained the 4 top models (XGBoost, CatBoost, Bagging \& HGBoost) on the SMOTE balanced dataset and compared the results to models trained on the imbalanced dataset. The results were also compared when optimizing for 'recall\_macro' or 'accuracy'. The reason for this is that recall is usually a better metric for imbalanced datasets, as accuracy can often misrepresent the truth. 'recall\_macro' takes an average of the recall for all 3 classes, which makes it a good metric to use.
+
+Furthermore, he used Weights and Biases (WandB) \cite{wandb} to analyse the subset of features produced by the Chi-Squared Test and RandomForest.  WandB provided an easy-to-use MLOps platform for tracking our experiments and helped us understand which features worked best for each classifier. He trained multiple classifiers on different subsets of the feature set (ranging from sizes 0.75N to N, where N is the size of the original feature set), and tracked this information in WandB. WandB allows us to quickly filter for the best performing 'runs', and find out which feature set was used in this run. He also used WandB to further analyse the results of his cross-validation hyper-parameter tuning, in much a similar process to feature selection.
 
 \subsubsection{Jason}
 
@@ -180,7 +178,6 @@ To evaluate the performance of each model, Jason used three different evaluation
 \subsubsection{Thomas}
 
 As mentioned, Thomas produced a number of visualisations to help understand the construction year feature. One example of these can be seen in Fig. \ref{fig:construction_year}. From these, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. The same is true across the other visualisations produced (see the accompanying ipynb for more details). For this reason, the missing values in the Construction year were kept as 'Unknown'. The distribution of the status group values within instances with 'Unknown' or 'Not Unknown' construction-year values can be seen in Fig \ref{fig:construction_year}.
-
 
 \begin{figure*}[t!]
     \centering
@@ -199,8 +196,6 @@ As mentioned, Thomas produced a number of visualisations to help understand the 
     \caption{Construction Year Data Analysis}
     \label{fig:construction_year}
 \end{figure*}
-
-
     
 \subsection{Data Preprocessing}
 
@@ -210,21 +205,21 @@ Firstly, The results of the latitude and longitude can be seen in Fig. \ref{fig:
 
 \begin{figure*}[t!]
   \centering
-  \begin{subfigure}[t]{0.5\textwidth}
+  \begin{subfigure}[t]{0.3\textwidth}
       \centering
-      \includegraphics[height=2.25in]{figures/tom_impute_lat_1}
+      \includegraphics[height=1.45in]{figures/tom_impute_lat_1}
       \caption{Pre-Imputation Latitude \& Longitude}
   \end{subfigure}%
   ~
-  \begin{subfigure}[t]{0.5\textwidth}
+  \begin{subfigure}[t]{0.3\textwidth}
       \centering
-      \includegraphics[height=2.25in]{figures/tom_impute_lat_2}
+      \includegraphics[height=1.5in]{figures/tom_impute_lat_2}
       \caption{Post-Imputation Latitude \& Longitude}
   \end{subfigure}
   ~
-  \begin{subfigure}[t]{0.5\textwidth}
+  \begin{subfigure}[t]{0.3\textwidth}
       \centering
-      \includegraphics[height=2.25in]{figures/tom_impute_lat_3}
+      \includegraphics[height=1.5in]{figures/tom_impute_lat_3}
       \caption{Imputated Latitude \& Longitude Overlayed onto a map of Tanzania}
   \end{subfigure}
   ~
@@ -232,7 +227,7 @@ Firstly, The results of the latitude and longitude can be seen in Fig. \ref{fig:
   \label{fig:lat_long_imputation}
 \end{figure*}
 
-Secondly, as mentioned the Installer and Funder columns had 1000s of unique values. There was also crossover between the values in the two columns. For this reason, Thomas decided to group the values together. This was performed manually using his own knowledge on the subject and the internet. The result was 8 categories, the counts for each of those categories in both the Funder \& Installer column can be seen in Table \ref{tab:funder_installer_categories}. These categorized versions of the features proved to provide some benefit to the model when testing the subset of features to use in WandB.
+Secondly, as mentioned the installer and funder column were categorized. This was performed manually using Thomas' own knowledge on the subject and the internet. The result was 8 categories, the counts for each of those categories in both the Funder \& Installer column can be seen in Table \ref{tab:funder_installer_categories}. These categorized versions of the features proved to provide some benefit to the model when testing the subset of features to use in WandB.
 
 \begin{table}[h]
   \centering
@@ -263,7 +258,7 @@ Secondly, as mentioned the Installer and Funder columns had 1000s of unique valu
   \end{tabular}
 \end{table}
 
-Finally, as metioned Thomas used the SMOTE-ENN algorithm to oversample the minority class. The results of this can be seen in Fig. \ref{fig:smote}. In this figure, O is 'Functional', '1' is 'Functional - Needs Repair' and 2 is 'Non-Functional'. 
+Finally, Thomas used the SMOTE-ENN algorithm to oversample the minority class. The results of this can be seen in Fig. \ref{fig:smote}. In this figure, O is 'Functional', '1' is 'Functional - Needs Repair' and 2 is 'Non-Functional'. 
 
 \begin{figure*}[t!]
   \centering
@@ -300,7 +295,7 @@ Post hyper-parameter tuning, metrics including accuracy, precision ('macro'), re
     \multirow{2}{*}{Recall Macro} & \multirow{4}{*}{Balanced} & XGBoost & 0.802 & 0.701 & 0.668 & 0.683 \\
     & & CatBoost & 0.783 & 0.669 & 0.660 & 0.664 \\
     & & HistGradientBoosting & 0.796 & 0.693 & 0.665 & 0.677 \\
-    & & BaggingClassifier & 0.803 & 0.703 & 0.676 & 0.687 \\
+    & & BaggingClassifier & 0.803 & 0.703 & \textbf{0.676} & \textbf{0.687} \\
     \cline{2-7}
     & \multirow{4}{*}{Imbalanced} & XGBoost & 0.804 & 0.720 & 0.662 & 0.683 \\
     & & CatBoost & 0.791 & 0.697 & 0.652 & 0.668 \\
@@ -312,16 +307,17 @@ Post hyper-parameter tuning, metrics including accuracy, precision ('macro'), re
     & & HistGradientBoosting & 0.797 & 0.699 & 0.666 & 0.680 \\
     & & BaggingClassifier & 0.801 & 0.701 & 0.671 & 0.684 \\
     \cline{2-7}
-    & \multirow{4}{*}{Imbalanced} & XGBoost & 0.804 & 0.748 & 0.648 & 0.676 \\
+    & \multirow{4}{*}{Imbalanced} & XGBoost & 0.804 & \textbf{0.748} & 0.648 & 0.676 \\
     & & CatBoost & 0.797 & 0.753 & 0.635 & 0.665\\
     & & HistGradientBoosting & 0.806 & 0.733 & 0.662 & 0.686 \\
-    & & BaggingClassifier & 0.811 & 0.741 & 0.656 & 0.681 \\
+    & & BaggingClassifier & \textbf{0.811} & 0.741 & 0.656 & 0.681 \\
     \hline
   \end{tabular}
 \end{table*}
 
-From these results, we can see that balancing the dataset doesn't provide much benefit. 
-Thomas also produced the two confusion matrices, as seen in Fig. \ref{fig:confusion_matrices}. These were produced by a XGBoost, and show the output of training on both the balanced and imbalanced datasets. We can see from these matrics that balancing the dataset results in less False Positives. If the goal of your model was to do specifically this, perhaps using the imbalanced dataset would be the best idea. This was not the case for us, so we continued with using the imbalanced dataset.
+From these results, we can see that although the difference in minimal, the BaggingClassifier performs the best. The balanced dataset provides a slight increase in F1-Score, yet accuracy is better with the imbalanced dataset. This makes sense, as incorrectly classifying the minority class has a small impact on accuracy but a large impact on F1-Score.
+
+Thomas also produced the two confusion matrices, as seen in Fig. \ref{fig:confusion_matrices}. These were produced by a XGBoost, and show the output of training on both the balanced and imbalanced datasets. We can see from these matrics that balancing the dataset results in less False Positives. If the goal of your model was to do specifically this, perhaps using the balanced dataset would be the best idea. This was not the case for us, so we continued with using the imbalanced dataset.
 
 \begin{figure*}
   \centering
@@ -342,7 +338,7 @@ Thomas also produced the two confusion matrices, as seen in Fig. \ref{fig:confus
 \end{figure*}
 
 
-Since the difference between different models and datasets is neglible (the imbalanced dataset actually perfoming better in some cases), Thomas decided to combine all the models to create a VotingClassifier to possibly squeeze out some extra performance. These results can be seen in Table \ref{tab:voting_classification_results}
+Since the difference between different models and datasets is neglible, Thomas decided to combine all the models to create a VotingClassifier to possibly squeeze out some extra performance. These results can be seen in Table \ref{tab:voting_classification_results}
 
 \begin{table}[H]
   \centering
