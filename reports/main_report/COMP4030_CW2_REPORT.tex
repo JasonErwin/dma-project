@@ -362,7 +362,24 @@ To relate this back to our research questions, we can say that these features ar
 
 In this section, we discuss the results of our analysis. We compare each of our separate approaches to each other, as well as comparing them to the performance of models in the literature.
 
+\subsection{Pre-Processing}
+
 \subsubsection{Tom}
+
+Myself and Jason used many different approaches throughout the project. One example of this is his use of a StandardScaler. He scaled every feature by removing the mean and sacling to a unit variance. I did not scale any features except 'gps\_height', and even then I used a MinMaxScaler. This is an interesting choice considering some of the data is categorical, and yet still produced quality results. Another difference in pre-processing was the handling of the funder and installer columns. We both took different approaches to this, and in my opinion Jason's technique proved slightly better. By categorizing the entire dataset, valuable information was lost was looking at the specific funders or installers, the information lost in Jason's technique was smaller as only values with small counts were removed from the dataset and classified as 'Other'.
+
+
+\subsection{Modelling}
+
+\subsubsection{Tom}
+
+We also used different hyper-parameter tuning methods, specifically GridSearch (Jason) and RandomSearch (Tom). The RandomSearch is faster and allowed me to research and test a wider range of hyper-parameters for a wider range of models. However, the GridSearch is in a sense more 'deep', focusing in on potential hyper-parameters that could be good. I think this is reflected in our results, as Jason's XGBoost slightly out-performed my XGBoost on the test set, however the breadth of search allowed me to find the BaggingClassifier, which performed very well. 
+
+\subsection{Literature Discussion}
+
+When comparing to the TabNet implementation by Pathak et al \cite{pathak2023pump}, we can see that our best classifiers were out-performed by TabNet by at least 2\%. This is quite significant. It's understandable that this is the case due to the capabilities of Transformers. 
+
+We also reviewed Pham et al \cite{Pham_2018} and found that their produced Neural Network (NN) was not as high performing as some more lightweight models. XGBoost / HistGradientBoost and BaggingClassifier all out-perform the NN. These lightweight models also are much faster to train than an NN, so it is much more efficient to use these models on a dataset such as Pump It Up.
 
 \section{Conclusion}
 
