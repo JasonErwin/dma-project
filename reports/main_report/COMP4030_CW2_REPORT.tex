@@ -39,11 +39,11 @@ hfyyl5@nottingham.ac.uk}
 \maketitle
 
 \begin{abstract}
-  This paper details our approaches and results for the COMP4030 CW2. We have used a number of machine learning algorithms in order to predict the status ('Functional', 'Functional - Needs Repair' \& 'Non-Functional') of water wells in Tanzania. This is important as not only does knowing the status of the well help keep the total percentage of functioning wells higher, but it also allows for more effective spending from the government as they no longer would have to send workers out to check the status of the well. Our results suggested that the most important features were \textbf{ADD RESULTS}, and the best classification model as \textbf{ADD RESULTS}
+  This paper details our approaches and results for the COMP4030 CW2. The goal was to predict the status ('Functional', 'Functional - Needs Repair' \& 'Non-Functional') of water wells in Tanzania. This is important as not only does knowing the status of the well help keep the total percentage of functioning wells higher, but it also allows for more effective spending on repairs. The most important features included 'age', 'season\_when\_recorded', 'height\_above\_sealevel' \& 'extraction\_type'. The best performing models were XGBoost and BaggingClassifier.
 \end{abstract}
 
 \begin{IEEEkeywords}
-  Machine Learning, Data Science, Classification
+  Machine Learning, Data Science, Classification, Water Pumps
 \end{IEEEkeywords}
 
 \section{Introduction}
@@ -52,7 +52,7 @@ hfyyl5@nottingham.ac.uk}
 
 \textbf{What factors are most important for determining the status of a well, and how accurately can we classify wells based on these features?}. 
 
-We choose this question because we are interested in the factors that determine the status of a well, and using ML to try to classify these wells into 1 of 3 classes: Functional, Non-Functional \& Functional Needs Repair. Follow-up questions to this question could include:
+We choose this question because we are interested in the factors that determine the status of a well, and using ML to try to classify these wells. Follow-up questions to this question could include:
     \begin{itemize}
         \item How does the accuracy of the classification model vary with different feature sets and classification algorithms?
         \item Could we use our results to ensure that wells are built and repaired so that fewer wells are non-functional?
@@ -73,7 +73,7 @@ Fig. \ref{fig:status_groups} shows the distribution of the target variable, whic
 
 \subsection{Management Structure}
 
-A requirement of this project was to work separately within our pairs and try different techniques to solve the problem. In order to not lost important insights, we communicated the our found results periodically. We took the three stages, 'Data Analysis', 'Data Preprocessing' \& 'Data Classification' and followed a 'Chistmas Tree'-like management approach. This means for section, we performed our own analysis, before combining our results and moving onto the next section. This was also done cyclically, for example when we re-examined the Preprocessing step in order to improve classification results. See Fig. \ref{fig:management_structure} for more details
+A requirement of this project was to work separately within our pairs and try different techniques to solve the problem. To not lose important insights, we communicated our results throughout the project. We followed a 'Christmas Tree'-like approach for each stage: 'Data Analysis', 'Data Pre-processing' \& 'Data Classification'. Each section was performed individually, before combining our results and moving out the next section. This process wasa performed cyclically, such as re-visting the Preprocessing step after the first Classificiation step. See Fig. \ref{fig:management_structure}
 
 \begin{figure}[h]
     \centering
@@ -82,7 +82,7 @@ A requirement of this project was to work separately within our pairs and try di
     \label{fig:management_structure}
 \end{figure}
 
-This results in a number of benefits. Firstly, it allows us to research a large number of approaches, which provides a higher chance of finding a powerful approach. Secondly, the combination of approaches that resulted might have never happened when working individually, which may provide more optimal results. 
+This results in two main benefits. Firstly, it allows us to research a large number of approaches, which provides a higher chance of finding a powerful approach. Secondly, the combination of approaches that resulted might have never happened when working individually, which may provide more optimal results. 
 
 \section{Literature Review}
 
@@ -96,11 +96,12 @@ Jithin Paul also undertook a study on the Pump it Up dataset, experimenting with
 
 \subsection{Data Analysis}
 
-When conducting data analysis, the python library Seaborn \cite{seaborn} was our primary data visualization tool. We found that Seaborn produces more visually appealing graphs than those produced by MatPlotLib and the library itself is simpler to use.
+
+When conducting data analysis, the python library Seaborn \cite{seaborn} was our primary data visualization tool. Seaborn offers more visually appealing graphs than MatPlotLib.
 
 \subsubsection{Thomas}
 
-Thomas produced visualizations to determine the correlation between 'construction\_year'and other features in the dataset. This feature had a number of missing values, therefore the objective behind these graphs was to determine the possibility of using other features to impute these missing values.
+Thomas visualized the correlation between 'construction\_year'and other features in the dataset. 'construction\_year' had a number of missing values, therefore these graphs could determine the possibility of using other features to impute the missing values.
 
 \subsubsection{Jason}
 
@@ -110,13 +111,7 @@ Jason checked the number of missing and unique values across 38 features provide
 
 \subsubsection{Thomas}
 
-Thomas initially performed the imputation of the latitude \& longitude missing values by applying mean imputation with a specific approach. The data was grouped by 'ward', 'lga' and then 'region'. This ensured that any missing values in either 'ward' or 'lga' did not result in missing lat / lon values. This also provides more accurate results than just 'regular' mean imputation, as the imputed values are localised.
-
-He also looked at the Funder \& Installer columns, which contained 1000s of unique values. In his approach, he decided to group the column into categories: 'Charity', 'Government', 'Local Government', 'Private', 'Religious', 'Foreign', 'School' \& 'Unknown'. This was done to simplify the dataset, making it easier for the model to learn the distribution. Since, the columns had crossover between the values, this can be done in 1 step.
-
-Finally, Thomas also used the SMOTE-ENN algorithm from imblearn \cite{smote-enn}, to balanced the imbalance in the 'Functional - Needs Repair' class. Imbalanced datasets could potentially affect model performance, especially in tree-based models.
-
-Finaly, 'gps-height' was normalised using a custom MinMaxScaler and a custom Z-Score Scaler. This was due to the prevelence of outliers in the 'gps-height' feature.
+Thomas performed imputation of the lat \& lon missing values by applying grouped mean imputation. The data was grouped by 'ward', 'lga' and then 'region'. This ensured that any missing values in either 'ward' or 'lga' did not result in missing lat / lon values. This also provides more accurate results than just 'regular' mean imputation, as the imputed values are localised. The Funder \& Installer columns contained 1000s of unique values. In Thomas' approach, he decided to group the column into categories: 'Charity', 'Government', 'Local Government', 'Private', 'Religious', 'Foreign', 'School' \& 'Unknown'. This was done to simplify the dataset, making it easier for the model to learn the distribution. Since, the columns had crossover between the values, this can be done in 1 step. Thomas also used the SMOTE-ENN algorithm from imblearn \cite{smote-enn}, to balanced the dataset, specificall the 'Functional - Needs Repair' class. Imbalanced datasets could potentially affect model performance, especially in tree-based models. Finally, 'gps-height' was normalised using a custom MinMaxScaler and a custom Z-Score Scaler. This was due to the prevelence of outliers in the 'gps-height' feature.
 
 \subsubsection{Jason}
 
@@ -132,7 +127,7 @@ The data set provided had feature and target variables in the form of categorica
 
 \subsection{Data Classification}
 
-Initially, our focus was on testing the performance of different algorithms without any feature selection. This would allows us to focus on the best performing ones. The results can be seen in Table. \ref{tab:initial-clf-results}. From these, we can see that XGBoostClassifier, CatBoostClassifier, BaggingClassifier \& HistGradientBoostingClassifier were the most effective for our problem. We decided to explore these models using feature selection \& hyper-parameter tuning. Our feature selection process employed a Chi-Squared test and feature importances obtained from a RandomForest and a XGBoost.
+Initially, we focused on testing the performance of different algorithms without any feature selection. This allows us to focus on the best performing ones. See Table. \ref{tab:initial-clf-results}. We can see that XGBoostClassifier, CatBoostClassifier, BaggingClassifier \& HistGradientBoostingClassifier were the most effective for our problem. We decided to explore these models using feature selection \& hyper-parameter tuning. Our feature selection process employed a Chi-Squared test and feature importances obtained from a RandomForest and a XGBoost.
 
 \begin{table}[h]
   \centering
@@ -159,9 +154,9 @@ Initially, our focus was on testing the performance of different algorithms with
 
 \subsubsection{Thomas}
 
-Thomas trained the 4 top models (XGBoost, CatBoost, Bagging \& HGBoost) on the SMOTE balanced dataset and compared the results to models trained on the imbalanced dataset. The results were also compared when optimizing for 'recall\_macro' or 'accuracy'. The reason for this is that recall is usually a better metric for imbalanced datasets, as accuracy can often misrepresent the truth. 'recall\_macro' takes an average of the recall for all 3 classes, which makes it a good metric to use.
+Thomas trained the 4 top models (XGBoost, CatBoost, Bagging \& HGBoost) on the SMOTE balanced dataset and compared the results to models trained on the imbalanced dataset. The results were also compared when optimizing for 'recall\_macro' or 'accuracy'. Recall is usually a better metric for imbalanced datasets, as accuracy can often misrepresent the truth. 'recall\_macro' takes an average of the recall for all 3 classes, which makes it a good metric to use.
 
-Furthermore, he used Weights and Biases (WandB) \cite{wandb} to analyse the subset of features produced by the Chi-Squared Test and RandomForest.  WandB provided an easy-to-use MLOps platform for tracking our experiments and helped us understand which features worked best for each classifier. He trained multiple classifiers on different subsets of the feature set (ranging from sizes 0.75N to N, where N is the size of the original feature set), and tracked this information in WandB. WandB allows us to quickly filter for the best performing 'runs', and find out which feature set was used in this run. He also used WandB to further analyse the results of his cross-validation hyper-parameter tuning, in much a similar process to feature selection.
+Furthermore, he used Weights and Biases (WandB) \cite{wandb} to analyse the subset of features produced by the Chi-Squared Test and RandomForest. WandB served as an accesible MLOps platform for experiment tracking. Multiple classifiers were trained on different feature subsets (ranging from sizes 0.75N to N, where N is the size of the original feature set), and tracked this information in WandB. WandB allows us to quickly filter for the best performing 'runs', and the feature subset used. He also used WandB to further analyse the results of his cross-validation hyper-parameter tuning, in much a similar process to feature selection.
 
 \subsubsection{Jason}
 
@@ -177,7 +172,7 @@ To evaluate the performance of each model, Jason used three different evaluation
 
 \subsubsection{Thomas}
 
-As mentioned, Thomas produced a number of visualisations to help understand the construction year feature. One example of these can be seen in Fig. \ref{fig:construction_year}. From these, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. The same is true across the other visualisations produced (see the accompanying ipynb for more details). For this reason, the missing values in the Construction year were kept as 'Unknown'. The distribution of the status group values within instances with 'Unknown' or 'Not Unknown' construction-year values can be seen in Fig \ref{fig:construction_year}.
+An example of the construction year visulisations can be see in Fig. \ref{fig:construction_year}. From this, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. The same is true across the other visualisations produced (see the accompanying ipynb for more details). For this reason, the missing values in the Construction year were kept as 'Unknown'. The distribution of the status group values in 'Unknown' or 'Not Unknown' construction year values can be seen in Fig \ref{fig:construction_year}.
 
 \begin{figure*}[t!]
     \centering
@@ -227,7 +222,7 @@ Firstly, The results of the latitude and longitude can be seen in Fig. \ref{fig:
   \label{fig:lat_long_imputation}
 \end{figure*}
 
-Secondly, as mentioned the installer and funder column were categorized. This was performed manually using Thomas' own knowledge on the subject and the internet. The result was 8 categories, the counts for each of those categories in both the Funder \& Installer column can be seen in Table \ref{tab:funder_installer_categories}. These categorized versions of the features proved to provide some benefit to the model when testing the subset of features to use in WandB.
+The installer \& funder columns were categorized manually using Thomas' own knowledge and online research. The result was 8 categories, the counts for these are presented in Table \ref{tab:funder_installer_categories}. These versions of the features showed some benefit to the model when testing feature subsets in WandB
 
 \begin{table}[h]
   \centering
@@ -258,7 +253,7 @@ Secondly, as mentioned the installer and funder column were categorized. This wa
   \end{tabular}
 \end{table}
 
-Finally, Thomas used the SMOTE-ENN algorithm to oversample the minority class. The results of this can be seen in Fig. \ref{fig:smote}. In this figure, O is 'Functional', '1' is 'Functional - Needs Repair' and 2 is 'Non-Functional'. 
+Thomas used the SMOTE-ENN algorithm to oversample the minority class. The results of this can be seen in Fig. \ref{fig:smote}. On the x-axis, O is 'Functional', '1' is 'Functional - Needs Repair' and 2 is 'Non-Functional'. 
 
 \begin{figure*}[t!]
   \centering
@@ -282,7 +277,7 @@ Finally, Thomas used the SMOTE-ENN algorithm to oversample the minority class. T
 
 \subsubsection{Thomas}
 
-Post hyper-parameter tuning, metrics including accuracy, precision ('macro'), recall ('macro') and f1-score were calculated for each of the models. The models were tested on both the imbalanced and SMOTE-ENN balanced dataset. The results can be seen in Table \ref{tab:classification_results}
+Post hyper-parameter tuning,accuracy, precision ('macro'), recall ('macro') and f1-score were calculated for each of the models. The models were evaluated on the imbalanced and SMOTE-ENN balanced dataset. The results can be seen in Table \ref{tab:classification_results}
 
 \begin{table*}[t]
   \centering
@@ -315,9 +310,9 @@ Post hyper-parameter tuning, metrics including accuracy, precision ('macro'), re
   \end{tabular}
 \end{table*}
 
-From these results, we can see that although the difference in minimal, the BaggingClassifier performs the best. The balanced dataset provides a slight increase in F1-Score, yet accuracy is better with the imbalanced dataset. This makes sense, as incorrectly classifying the minority class has a small impact on accuracy but a large impact on F1-Score.
+The results show the BaggingClassifiers performs the best, although the difference is minimal. The balanced dataset provides a slight increase in F1-Score, which accuracy is higher with the imbalanced dataset. This makes sense, as incorrectly classifying the minority class has a small impact on accuracy but a large impact on F1-Score.
 
-Thomas also produced the two confusion matrices, as seen in Fig. \ref{fig:confusion_matrices}. These were produced by a XGBoost, and show the output of training on both the balanced and imbalanced datasets. We can see from these matrics that balancing the dataset results in less False Positives. If the goal of your model was to do specifically this, perhaps using the balanced dataset would be the best idea. This was not the case for us, so we continued with using the imbalanced dataset.
+Thomas produced the two confusion matrices using an XGBoost, see Fig. \ref{fig:confusion_matrices}. They show the output of training on both the balanced and imbalanced datasets. Balancing the dataset results in less False Positives on the minority class. If the goal of your model was to do specifically this, perhaps using the balanced dataset would be the best idea. This was not the case for us, so we continued with using the imbalanced dataset.
 
 \begin{figure*}
   \centering
@@ -336,7 +331,6 @@ Thomas also produced the two confusion matrices, as seen in Fig. \ref{fig:confus
   \caption{Balanced vs Imbalanced Confusion Matrices (XGBoost)}
   \label{fig:confusion_matrices}
 \end{figure*}
-
 
 Since the difference between different models and datasets is neglible, Thomas decided to combine all the models to create a VotingClassifier to possibly squeeze out some extra performance. These results can be seen in Table \ref{tab:voting_classification_results}
 
@@ -357,7 +351,6 @@ Using both the results from model based feature selection, and feature selection
 
 To relate this back to our research questions, we can say that these features are the most important when looking at whether wells are functional or not.We can also say we can classify whether a well is function or not with 81\% accuracy.
 
-
 \section{Discussion}
 
 In this section, we discuss the results of our analysis. We compare each of our separate approaches to each other, as well as comparing them to the performance of models in the literature.
@@ -366,18 +359,17 @@ In this section, we discuss the results of our analysis. We compare each of our 
 
 \subsubsection{Tom}
 
-Myself and Jason used many different approaches throughout the project. One example of this is his use of a StandardScaler. He scaled every feature by removing the mean and sacling to a unit variance. I did not scale any features except 'gps\_height', and even then I used a MinMaxScaler. This is an interesting choice considering some of the data is categorical, and yet still produced quality results. Another difference in pre-processing was the handling of the funder and installer columns. We both took different approaches to this, and in my opinion Jason's technique proved slightly better. By categorizing the entire dataset, valuable information was lost was looking at the specific funders or installers, the information lost in Jason's technique was smaller as only values with small counts were removed from the dataset and classified as 'Other'.
-
+Jason and I used many different approaches throughout the project. For instance, Jason utilized a StandardScaler to scale every feature by removing the mean and scaling to a unit variance. I did not scale any features except 'gps\_height', and even then I used a MinMaxScaler. Despite the presence of categorical data, Jason's method still produced high quality results. Another difference in pre-processing was the handling of the funder and installer columns. We both took different approaches to this, and in my opinion Jason's technique proved slightly better. By categorizing the entire dataset, valuable information was lost by not using the specific funders or installers. Jason's approached lost less information as only values with small counts were removed from the dataset and classified as 'Other'.
 
 \subsection{Modelling}
 
 \subsubsection{Tom}
 
-We also used different hyper-parameter tuning methods, specifically GridSearch (Jason) and RandomSearch (Tom). The RandomSearch is faster and allowed me to research and test a wider range of hyper-parameters for a wider range of models. However, the GridSearch is in a sense more 'deep', focusing in on potential hyper-parameters that could be good. I think this is reflected in our results, as Jason's XGBoost slightly out-performed my XGBoost on the test set, however the breadth of search allowed me to find the BaggingClassifier, which performed very well. 
+We also used different hyper-parameter tuning methods, specifically GridSearch (Jason) and RandomSearch (Tom). RandomSearch enabled a wider exploration of hyperparameter ranges across various models, making it faster. On the other hand, GridSearch focused on specific potential hyperparameters, providing a more in-depth search. I think this is reflected in our results, as Jason's XGBoost slightly out-performed my XGBoost on the test set, however the breadth of search allowed me to find the BaggingClassifier, which performed very well.
 
 \subsection{Literature Discussion}
 
-When comparing to the TabNet implementation by Pathak et al \cite{pathak2023pump}, we can see that our best classifiers were out-performed by TabNet by at least 2\%. This is quite significant. It's understandable that this is the case due to the capabilities of Transformers. 
+When comparing to the TabNet implementation by Pathak et al \cite{pathak2023pump}, we can see that our best classifiers were out-performed by TabNet by at least 2\%. This is quite significant. It's understandable that this is the case due to the capabilities of Transformers, which are arguably the most popular model right now. 
 
 We also reviewed Pham et al \cite{Pham_2018} and found that their produced Neural Network (NN) was not as high performing as some more lightweight models. XGBoost / HistGradientBoost and BaggingClassifier all out-perform the NN. These lightweight models also are much faster to train than an NN, so it is much more efficient to use these models on a dataset such as Pump It Up.
 
