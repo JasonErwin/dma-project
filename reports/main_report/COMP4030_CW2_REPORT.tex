@@ -105,7 +105,7 @@ Thomas visualized the correlation between 'construction\_year'and other features
 
 \subsubsection{Jason}
 
-Jason checked the number of missing and unique values across 38 features provided. The main reasoning behind it was to identify features that would require imputations due to missing or invalid values. In addition, this step allowed him to distinguish features which would have to be recategorised due to the large number of unique values present.  He also generated Count Plots for each of the previously mentioned features based on water wells' status. These plots allowed him to visualise the distribution of the wells' status based on features. Thus, making it easier to identify features that could possibly influence the status of a water well.
+Jason checked the number of missing and unique values across 38 features provided.He wanted to identify features that would require imputations due to missing or invalid values. In addition, this step allowed him to distinguish features which would have to be recategorised due to the large number of unique values present.  He also generated Count Plots for each of the previously mentioned features based on water wells' status. These plots allowed him to visualise the distribution of the wells' status based on features. Thus, making it easier to identify features that could possibly influence the status of a water well.
 
 \subsection{Data Preprocessing}
 
@@ -115,15 +115,15 @@ Thomas performed imputation of the lat \& lon missing values by applying grouped
 
 \subsubsection{Jason}
 
-Due to the presence of missing data in the Latitude \& Longitude columns, Jason decided to apply mean imputation based on the Region column. The values of the Region column corresponds with the name of cities present in Tanzania. By calculating the  mean latitude and longitude value of each region, a rough estimation of the geographical location of wells with missing value could be known. Therefore, allowing valuable insights to be learnt by ML models during training.
+Due to the presence of missing data in the Latitude \& Longitude columns, Jason decided to apply mean imputation based on the Region column. The values of the Region column corresponds with the name of cities present in Tanzania. By calculating the  mean latitude and longitude value of each region, a rough estimation of the geographical location of wells with missing value could be known. 
 
-During the Data Analysis Phase, he had noticed that two columns Permit and Public Meeting had missing values. Upon further inspection, these two columns only contain the values of either 'True' or 'False'. Data Imputation was not done at this stage due to the lack of valuable data present in the data set. To preserve the distribution of these two columns, a unique values known as 'Unknown' was given to rows with missing data.
+During the Data Analysis Phase, he noticed the Permit and Public Meeting columns had missing values. Upon further inspection, these two columns only contain the values of either 'True' or 'False'. Data Imputation was not done here due to the lack of valuable data present in the data set. To preserve the distribution of these two columns, a unique values known as 'Unknown' was given to rows with missing data.
 
-Jason had performed data recategorisation on both funder and installer columns which contained 1000 - 2000 unique values. He had first performed data cleaning to fix spelling mistakes that were present in each column. This was followed by identifying unique values with count above the threshold of 1000. Each unique value above the previously mentioned threshold would be classified as its own individual class while those below it would be classified under the 'Other' value. Data recategorisation would be able to reduce the number of unique values present in these two columns leading to better ML model training performance.
+He performed data recategorisation on both funder and installer columns which contained 1000 - 2000 unique values. He first performed data cleaning to fix spelling mistakes that were present in each column. This was followed by identifying unique values with count above the threshold of 1000. Each unique value above the previously mentioned threshold would be classified as its own individual class while those below it would be classified under the 'Other' value. Data recategorisation would be able to reduce the number of unique values present to improve the models' training perforamance.
 
-Although the number of unique values in the Region Column are minimal, Jason decided to reclassify them according to their geographical zones based on data that was provided by the Tanzania Water and Sanitation Network \cite{tawasanet}. This reduced the number of unique values of the Region Column to 7 from 21. New insights could potentially be drawn upon  based on the zone that the water wells is currently located in.
+Although the number of unique values in the Region Column were minimal, he decided to reclassify them according to their geographical zones based on data that was provided by the Tanzania Water and Sanitation Network \cite{tawasanet}. This reduced the number of unique values of the Region Column to 7 from 21. New insights could potentially be drawn upon  based on the zone that the water wells is currently located i.
 
-The data set provided had feature and target variables in the form of categorical form. Jason had converted these features into numerical form that is required of by ML models prior to training. He had encoded the values of the feature and target variables in the form of alphabetical order whereby a = 0, b = 1 etc. 
+The data set provided had feature and target variables in the form of categorical form. he had converted these features into numerical form that is required of by ML models prior to training. He had encoded the values of the feature and target variables in the form of alphabetical order whereby a = 0, b = 1 etc. 
 
 \subsection{Data Classification}
 
@@ -164,7 +164,7 @@ From the Random Forest feature importance and Chi-Squared Test, Jason had shortl
 
 For this study, he considered three different machine learning models  (Random Forrest, XGBoost \& CatBoost). Hyperparameter tuning was conducted via GridSearchCV \cite{gridsearch} from the sklearn library. Upon completion of the hyperparameter tuning process, the most optimal parameters of each model were recorded before being passed for model training. 
 
-To evaluate the performance of each model, Jason used three different evaluation methods. K-fold cross validation with the value of K being 5 , confusion matrix and receiver operating characteristic (ROC) curve. K-fold cross validations was used to evaluate the performance of the model on unseen data. Meanwhile, confusion matrix showcases the predictions which are labelled correctly and incorrectly by class. Although ROC Curve is usually meant for binary classification, it could still be extended to multiclass classification through pairwise comparison i.e., one class vs all other classes.   
+To evaluate the performance of each model, Jason used three different evaluation methods. K-fold cross validation with the value of K being 5 , confusion matrix and receiver operating characteristic (ROC) curve. K-fold cross validations was used to evaluate the performance of the model on unseen data. Meanwhile, confusion matrix showcases the predictions which are labelled correctly and incorrectly by class. Although ROC Curves are usually meant for binary classification, it was extended to  be used for multiclass classification through pairwise comparison i.e., one class vs all other classes.   
 
 \section{Results} \label{ref:results}
 
@@ -191,7 +191,47 @@ An example of the construction year visulisations can be see in Fig. \ref{fig:co
     \caption{Construction Year Data Analysis}
     \label{fig:construction_year}
 \end{figure*}
-    
+
+\subsubsection{Jason}
+
+As stated in Section III Methodology, Jason analysed the distribution of missing and unique values across all 38 feature columns. One key highlight of  this stage could be seen in Fig \ref{fig:lat_long_distribution}. This figure showcases the  presence of a large number for a particular value in both latitude and longitude columns which would have to be taken note of before proceeding with model training. Furthermore, he had noticed that they were a number of columns that were representing the same thing such as Source \& Source Type. This could be observed in Fig \ref{fig:source}. Other visualisations could be seen in the ipynb notebook submitted with this report.
+
+\begin{figure*}[t]
+    \centering
+    \begin{subfigure}[t]{0.3\textwidth}
+      \centering
+      \includegraphics[height=1.5in]{figures/jason_latitude.png}
+      \caption{Longitude Distribution}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}[t]{0.3\textwidth}
+      \centering
+      \includegraphics[height=1.5in]{figures/jason_longitude.png}
+      \caption{Latitude Distribution}
+    \end{subfigure}
+    ~
+    \caption{Latitude \& Longitude Distribution}
+    \label{fig:lat_long_distribution}
+\end{figure*}
+
+\begin{figure*}[t]
+    \centering
+    \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=2.25in]{figures/jason_source.png}
+      \caption{Source Column Distribution}
+    \end{subfigure}%
+    ~
+    \begin{subfigure}[t]{0.5\textwidth}
+      \centering
+      \includegraphics[height=2.25in]{figures/jason_sourcetype.png}
+      \caption{Source Type Distribution}
+    \end{subfigure}
+    ~
+    \caption{Well Source Data Analysis}
+    \label{fig:source}
+\end{figure*}
+
 \subsection{Data Preprocessing}
 
 \subsubsection{Thomas}
@@ -272,6 +312,73 @@ Thomas used the SMOTE-ENN algorithm to oversample the minority class. The result
   \caption{SMOTE-ENN Oversampling}
   \label{fig:smote}
 \end{figure*}
+
+\subsubsection{Jason}
+
+As mentioned previously , Jason had performed some pre-processing on the Longitude, Latitude, Public Meeting \& Permit columns. Longitude \& latitude was imputed with mean based on its assigned region. On the other hand, a new variable known as "Unknown" was used to classify rows with missing data in Public Meeting \& Permit columns. Data reclassifications was also performed on funder, installer \& Region Columns. For both funder \& installer columns, he decided to classify unique values with values above 1000 as its own class while those with values lower than 1000 would be classified under "Other". The result of funder \& installer columns reclassification could be seen in Table \ref{tab:funder_installer_recategorise}. Jason utilised data provided by the Tanzanian Water and Sanitation Network to reduce the number of unique values in the Region Column. The graphical representation of the aforementioned pre-processing steps are represented in Fig .\ref{fig:jason_preprocessing}
+
+\begin{figure*}[t!]
+  \centering
+  \begin{subfigure}[t]{0.225\textwidth}
+      \centering
+      \includegraphics[height=1.25in]{figures/jason_imputation.png}
+      \caption{Latitude \& Longitude Mean Imputation}
+  \end{subfigure}%
+  ~
+  \begin{subfigure}[t]{0.225\textwidth}
+      \centering
+      \includegraphics[height=1.25in]{figures/jason_permit.png}
+      \caption{Permit Column After Handling Missing Values}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[t]{0.225\textwidth}
+      \centering
+      \includegraphics[height=1.25in]{figures/jason_public.png}
+      \caption{Public Meeting Column After Handling Missing Values}
+  \end{subfigure}
+  ~
+   \begin{subfigure}[t]{0.225\textwidth}
+      \centering
+      \includegraphics[height=1.25in]{figures/jason_zones.png}
+      \caption{Region Column Distribution After Recategorisation}
+  \end{subfigure}
+  ~
+  \caption{Results of Data Pre-processing}
+  \label{fig:jason_preprocessing}
+\end{figure*}
+
+\begin{table}[]
+  \centering
+  \caption{Funder \& Installer Recategorise Values}
+  \label{tab:funder_installer_recategorise}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Column & Category & Count \\
+    \hline
+    \multirow{11}{*}{Funder} & Other & 37401 \\
+    & Gov & 9084 \\
+    & Danida & 3114 \\
+    & Hesawa & 2203 \\
+    & ELCT & 1540 \\
+    & RWSSP & 1381 \\
+    & World Bank & 1349 \\
+    & World Vision & 1246 \\
+    & Unifce & 1058 \\
+    & District Council & 1020\\
+    & Unknown & 4 \\
+    \hline
+    \multirow{9}{*}{Installer} & Other & 31825 \\
+    & DWE & 17402 \\
+    & Gov & 3610 \\
+    & Community & 1745 \\
+    & Hesawa & 1395 \\
+    & RWE & 1206 \\
+    & ELCT & 1163 \\
+    & Danida & 1051 \\
+    & Unknown & 3 \\
+    \hline
+  \end{tabular}
+\end{table}
 
 \subsection{Classification} \label{ref:classification_results}
 
