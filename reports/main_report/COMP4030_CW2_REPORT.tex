@@ -321,25 +321,25 @@ As mentioned previously , Jason had performed some pre-processing on the Longitu
   \centering
   \begin{subfigure}[t]{0.225\textwidth}
       \centering
-      \includegraphics[height=1.25in]{figures/jason_imputation.png}
+      \includegraphics[height=1.35in]{figures/jason_imputation.png}
       \caption{Latitude \& Longitude Mean Imputation}
   \end{subfigure}%
   ~
   \begin{subfigure}[t]{0.225\textwidth}
       \centering
-      \includegraphics[height=1.25in]{figures/jason_permit.png}
+      \includegraphics[height=1.35in]{figures/jason_permit.png}
       \caption{Permit Column After Handling Missing Values}
   \end{subfigure}
   ~
   \begin{subfigure}[t]{0.225\textwidth}
       \centering
-      \includegraphics[height=1.25in]{figures/jason_public.png}
+      \includegraphics[height=1.35in]{figures/jason_public.png}
       \caption{Public Meeting Column After Handling Missing Values}
   \end{subfigure}
   ~
    \begin{subfigure}[t]{0.225\textwidth}
       \centering
-      \includegraphics[height=1.25in]{figures/jason_zones.png}
+      \includegraphics[height=1.35in]{figures/jason_zones.png}
       \caption{Region Column Distribution After Recategorisation}
   \end{subfigure}
   ~
@@ -355,7 +355,7 @@ As mentioned previously , Jason had performed some pre-processing on the Longitu
     \hline
     Column & Category & Count \\
     \hline
-    \multirow{11}{*}{Funder} & Other & 37401 \\
+    \multirow{11}{*}{Funder} & Other & 37405 \\
     & Gov & 9084 \\
     & Danida & 3114 \\
     & Hesawa & 2203 \\
@@ -363,11 +363,10 @@ As mentioned previously , Jason had performed some pre-processing on the Longitu
     & RWSSP & 1381 \\
     & World Bank & 1349 \\
     & World Vision & 1246 \\
-    & Unifce & 1058 \\
+    & Unicef & 1058 \\
     & District Council & 1020\\
-    & Unknown & 4 \\
     \hline
-    \multirow{9}{*}{Installer} & Other & 31825 \\
+    \multirow{9}{*}{Installer} & Other & 31828 \\
     & DWE & 17402 \\
     & Gov & 3610 \\
     & Community & 1745 \\
@@ -375,7 +374,6 @@ As mentioned previously , Jason had performed some pre-processing on the Longitu
     & RWE & 1206 \\
     & ELCT & 1163 \\
     & Danida & 1051 \\
-    & Unknown & 3 \\
     \hline
   \end{tabular}
 \end{table}
@@ -457,6 +455,56 @@ Since the difference between different models and datasets is neglible, Thomas d
 Using both the results from model based feature selection, and feature selection after looking at the results from Weights \& Biases, Thomas decided to use the following features in his final model: \textbf{'age'}, \textbf{'latitude\_imputation'}, \textbf{'longitude\_imputation'}, \textbf{'construction\_decade'}, \textbf{'quality\_group'}, \textbf{'basin'}, \textbf{'extraction\_type'}, \textbf{'cat\_installer'}, \textbf{'population'}, \textbf{'gps\_height\_zscorenormalise'}, \textbf{'cat\_funder'}, \textbf{'quantity'}, \textbf{'consistent\_water'}, \textbf{'source\_class'}, \textbf{'zones'}, \textbf{'waterpoint\_type'}, \textbf{'season'}, \textbf{'extraction\_type\_class'}, \textbf{'payment'} (Please consult the ipynb for more details on what information these features contain).
 
 To relate this back to our research questions, we can say that these features are the most important when looking at whether wells are functional or not.We can also say we can classify whether a well is function or not with 81\% accuracy.
+
+\subsubsection{Jason}
+
+Based on the results that were obtained from the random forest feature importance and Chi-Squared Test, Jason had decided to use the following features for his model: \textbf{'longitude\_imputation'}, \textbf{'latitude\_imputation'}, \textbf{'quantity'}, \textbf{'extraction\_type\_class'}, \textbf{'gps\_height'}, \textbf{'age'}, \textbf{'waterpoint\_type\_group'}, \textbf{'population\_original'}, \textbf{'payment\_type'}, \textbf{'source\_type'}, \textbf{'funder\_groups'}, \textbf{'basin'}, \textbf{'installer\_grouped'}, \textbf{'management'}, \textbf{'water\_quality'}, \textbf{'public\_meeting'}.
+
+To evaluate the three models that Jason had trained, he decided to use K-fold cross validation with K having a value of 5 and the plotting of confusion matrices. Important metrics such as precision,recall \& f1-score and K-fold cross validation accuracy score were also calculated. Precision,recall \& f1-score were calculated using macro average. The results of this evaluation can be seen in Table \ref{tab:jason_model}.
+
+\begin{table}[H]
+  \centering
+  \caption{Trained Model Classification Results}
+  \label{tab:jason_model}
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \textbf{Model} & \textbf{Cross-val Accuracy} & \textbf{Precision} & \textbf{Recall} &\textbf{F1-Score} \\ \hline
+    Random Forrest	& 0.795 & 0.72 & 0.64 & 0.67\\
+    \hline
+    XGBoost &\textbf{0.800} & 0.69 & \textbf{0.67} & \textbf{0.68} \\
+    \hline
+    CatBoost & 0.787 & \textbf{0.73} & 0.60 & 0.63 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Receiver Operating Characteristic Curves (ROC) for each model were plotted and could be seen in Fig \ref{fig:roc_curve}.
+
+\begin{figure*}[t!]
+  \centering
+  \begin{subfigure}[t]{0.3\textwidth}
+      \centering
+      \includegraphics[height=1.65in]{figures/jason_rf.png}
+      \caption{Random Forrest ROC Curve}
+  \end{subfigure}%
+  ~
+  \begin{subfigure}[t]{0.3\textwidth}
+      \centering
+      \includegraphics[height=1.65in]{figures/jason_xg.png}
+      \caption{XGBoost ROC Curve}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[t]{0.3\textwidth}
+      \centering
+      \includegraphics[height=1.65in]{figures/jason_cat.png}
+      \caption{CatBoost ROC Curve}
+  \end{subfigure}
+  ~
+  \caption{Models' ROC Curve}
+  \label{fig:roc_curve}
+\end{figure*}
+
+Out of the 3 models that I had trained throughout this study, I found out that XGBoost performed the best achieving an accuracy of 80\% over Random Forrest (79.5\%) and CatBoost (78.7\%)
 
 \section{Discussion}
 
