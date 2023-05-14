@@ -516,11 +516,27 @@ In this section, we discuss the results of our analysis. We compare each of our 
 
 Jason and I used many different approaches throughout the project. For instance, Jason utilized a StandardScaler to scale every feature by removing the mean and scaling to a unit variance. I did not scale any features except 'gps\_height', and even then I used a MinMaxScaler. Despite the presence of categorical data, Jason's method still produced high quality results. Another difference in pre-processing was the handling of the funder and installer columns. We both took different approaches to this, and in my opinion Jason's technique proved slightly better. By categorizing the entire dataset, valuable information was lost by not using the specific funders or installers. Jason's approached lost less information as only values with small counts were removed from the dataset and classified as 'Other'.
 
+\subsubsection{Jason}
+
+One of the differences that could be observed in the Pre-processing stage of this study is the way Thomas and I implemented mean imputation for the missing values in longitude \& latitude columns. I decided to utilise a simpler approach where I imputed based on a region's average value. However, Tom decided to impute them based on the order of 'ward', 'lga' and 'region'. Tom's method in theory should represent the data distribution better as it takes more specific features such as 'ward' \& 'lga' which are smaller than 'region'. The simpler approach that I took could skew the data towards the mean of a region which could result in some data being lost. But during model evaluation it was noted that the simpler approach resulted in better performance.
+
+Another aspect that was different was the way that we performed data recategorisation on the funder and installer columns. I decided to first fix the spelling mistakes before proceeding to classifying those unique values with value counts above 1000 as its own individual class while those below that threshold would be classified under the "Other" class. Tom decided to individually classify them in categories based on his knowledge and online research. Initially, I felt that those unique values above 1000 should be their own category as they is large number of data samples whereby machine learning model can learn from. Those values less than 1000 should in theory not affect the model's training by much therefore classifying them as "Other" would be a safe option. By performing the recategorisation based on his own, Tom had a smaller number of categories than me at the cost of losing valuable information that could be obtained from unique values that were in large numbers.
+
+Although both of us had applied different normalisation methods i.e. Tom applied MinMaxScaler , I applied Z-Score Normalisation, our models performed fairly way achieving accuracy of 81\% and 80\% respectively. This indicates that both normalisation methods could be considered acceptable in this study.
+
 \subsection{Modelling}
 
 \subsubsection{Tom}
 
 We also used different hyper-parameter tuning methods, specifically GridSearch (Jason) and RandomSearch (Tom). RandomSearch enabled a wider exploration of hyperparameter ranges across various models, making it faster. On the other hand, GridSearch focused on specific potential hyperparameters, providing a more in-depth search. I think this is reflected in our results, as Jason's XGBoost slightly out-performed my XGBoost on the test set, however the breadth of search allowed me to find the BaggingClassifier, which performed very well.
+
+\subsubsection{Jason}
+
+Tom started by modelling baseline models involving different algorithms without feature selection to gauge the performance of each model on this dataset. This was in contrast what I did as I already had an idea on what models to develop. Tom's method actually gave a better insight on the models that could potentially be suited for this dataset. This allowed him to narrow down the models that he should try to developed. I noticed that rushing towards the development of a model directly without any testing like what I did was unwise as it could lead to valuable time being wasted on models that do not perform well on this dataset.
+
+The choice of hyper-parameter tuning methods between the two of us showcased the different ideologies that we had. I opted for a smaller but in depth search space with Grid Search while Tom opted for a broad but shallower search space with Random Search. Compromises would have to made during hyper-parameter tuning, do we go for a more in depth but restricted search or a more broad but shallow search when improving model performance. Both approaches were able to achieve commendable results with Tom's Bagging Classifier slightly edging Jason's XGBoost in terms of accuracy (81\% vs 80\%)
+
+When we consider the models that both of us had trained, I find Tom's implementation of a Bagging Classifer rather interesting. Instead of developing a model that utilised only one algorithm, he decided to combine his developed XGBoost, CatBoost and HistGradientBoosting into a voting classifier. All three models were used to make predictions on unseen data and the algorithm that had the best performance would be selected to make the classification. A Bagging Classifier in this scenario could be seen as more robust in comparison with models that only  utilise one algorithm. The results from this study further echo the above sentiment with Tom's Bagging Classifier achieving better performance than my XGBoost.
 
 \subsection{Literature Discussion}
 
@@ -528,11 +544,15 @@ When comparing to the TabNet implementation by Pathak et al \cite{pathak2023pump
 
 We also reviewed Pham et al \cite{Pham_2018} and found that their produced Neural Network (NN) was not as high performing as some more lightweight models. XGBoost / HistGradientBoost and BaggingClassifier all out-perform the NN. These lightweight models also are much faster to train than an NN, so it is much more efficient to use these models on a dataset such as Pump It Up.
 
+Upon comparison with the findings obtained from Jithin Paul \cite{Paul_2023} with ours, we observed that his Random Forrest Classier had surpassed our Bagging Classifier by a fine margin of 0.008\%. This slight increase in terms of accuracy could be seen due to the number of features that was used for model training. Specifically, Paul had utilised 25 features while only 19 features were considered in our study. With a larger number of features, it could be theorise that machine learning models would be able to extract insights better leading to better classification performance.
+
 \section{Conclusion}
+
+Overall, we have successfully developed and evaluated 7 different ML models on the Pump It Up dataset. Tom's Bagging Classifier performed the best with a classification accuracy of 81\%. Our  models have showcased that it is feasible for ML models to aid the Tanzanian Government in classifying the status of wells based on historical data. With machine learning, the Tanzanian Government would be able to act quicker in repairing wells that are non functional for the benefit of their people. One of the shortcomings in this study is that the dataset provided was incomplete and had invalid values. Important values such as construction year which would typically affect the status of a well was missing in the regions of 20,000s. Although imputation was done to mitigate the effects of invalid data, it is still not a proper representation of the data that the ML would be facing with during deployment.
+
+However, one of our supplementary research questions: \textbf{Could we use our results to ensure that the wells are built and repaired so that fewer wells are non functional?} was not answered in this study due to the lack of relevant data in the Pump It Up dataset. Moving forward, we seek to obtain additional data from Taarifa and Tanzanian Ministry of Water to be able to calculate the lifetime and decay rate of wells as mentioned by Pham et al \cite{Pham_2018}. Both of these metrics would allow us to have a better understanding of the lifetime of a well and how long it takes for a well to be non functional. Furthermore, we could explore the possibility of applying more state of the art ML models i.e. Transformers on the Pump It Up dataset as only traditional ML models were applied in this study. 
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
 \end{document}
-
-
