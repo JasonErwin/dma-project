@@ -15,6 +15,7 @@
 \usepackage{caption}
 \usepackage{multirow}
 \usepackage{float}
+\usepackage[normalem]{ulem}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -60,7 +61,7 @@ We choose this question because we are interested in the factors that determine 
 
 \subsection{Dataset}
 
-The chosen dataset is from the Tanzanian Ministry of Water and contains information on the status of wells in Tanzania. This dataset has 59400 rows, with 40 different features. These 40 features could be broken down into three subgroups: a) Geographic Location of the Wells. b) Management of the wells. and c) Water Condition of the wells. The dataset is originally split into 2 different files, one for labels and one for the actual data. These can be merged easily with pandas through left join on the "ID" column. 
+The chosen dataset is from the Tanzanian Ministry of Water and contains information on the status of wells in Tanzania. This dataset has 59400 rows, with 40 different features. These 40 features could be broken down into three subgroups: a) Geographic Location of the Wells. b) Management of the wells. and c) Water Condition of the wells. \sout{The dataset is originally split into 2 different files, one for labels and one for the actual data. These can be merged easily with pandas through left join on the "ID" column.}
 
 Fig. \ref{fig:status_groups} shows the distribution of the target variable, which is the status of the well. We can see from this that we might need to oversample the 'functional needs repair' class, due to class imbalance.
 
@@ -73,16 +74,16 @@ Fig. \ref{fig:status_groups} shows the distribution of the target variable, whic
 
 \subsection{Management Structure}
 
-A requirement of this project was to work separately within our pairs and try different techniques to solve the problem. To not lose important insights, we communicated our results throughout the project. We followed a 'Christmas Tree'-like approach for each stage: 'Data Analysis', 'Data Pre-processing' \& 'Data Classification'. Each section was performed individually, before combining our results and moving out the next section. This process wasa performed cyclically, such as re-visting the Preprocessing step after the first Classificiation step. See Fig. \ref{fig:management_structure}
+A requirement of this project was to work separately within our pairs and try different techniques to solve the problem. To not lose important insights, we communicated our results throughout the project. We followed a 'Christmas Tree'-like approach for each stage: 'Data Analysis', 'Data Pre-processing' \& 'Data Classification'. Each section was performed individually, before combining our results and moving out the next section. This process was performed cyclically, re-visiting steps when required. See Fig. \ref{fig:management_structure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.35]{figures/ct_approach.png}
+    \includegraphics[scale=0.3]{figures/ct_approach.png}
     \caption{Management Structure}
     \label{fig:management_structure}
 \end{figure}
 
-This results in two main benefits. Firstly, it allows us to research a large number of approaches, which provides a higher chance of finding a powerful approach. Secondly, the combination of approaches that resulted might have never happened when working individually, which may provide more optimal results. 
+This results in two main benefits. Firstly, it allows us to research a large number of approaches, which provides a higher chance of finding a powerful approach. Secondly, the combination of approaches that resulted may provide more optimal results. 
 
 \section{Literature Review}
 
@@ -92,7 +93,7 @@ Pham et al studied fully connected neural networks on the Pump it Up dataset \ci
 
 Jithin Paul also undertook a study on the Pump it Up dataset, experimenting with different models to test for the best results \cite{Paul_2023}. He proposed four methods, RandomForest, DeepLearning, LogisticRegression \& AdaBoost. The results showed that RandomForest, was the most accurate model, achieving a mean accuracy of 81.18\% on the test dataset. This finding demonstrates that tree-based models perform exceptionally well on this dataset, which motivated us to use more sophisticated tree-based methods in our own work.
 
-\section{Methodology}
+\section{Methodology} \label{ref:method}
 
 \subsection{Data Analysis}
 
@@ -105,25 +106,25 @@ Thomas visualized the correlation between 'construction\_year'and other features
 
 \subsubsection{Jason}
 
-Jason checked the number of missing and unique values across 38 features provided.He wanted to identify features that would require imputations due to missing or invalid values. In addition, this step allowed him to distinguish features which would have to be recategorised due to the large number of unique values present.  He also generated Count Plots for each of the previously mentioned features based on water wells' status. These plots allowed him to visualise the distribution of the wells' status based on features. Thus, making it easier to identify features that could possibly influence the status of a water well.
+Jason checked the number of missing and unique values across 38 features provided\sout{. He wanted} to identify features that would require imputation\sout{s due to missing or invalid values}. In addition, this step allowed him to distinguish features which would have to be recategorised due to the large number of unique values present. He also generated countplots for each of the previously mentioned features based on water wells' status. These plots allowed him to visualise the distribution of the wells' status based on features. Thus, making it easier to identify features that could possibly influence the status of a water well.
 
 \subsection{Data Preprocessing}
 
 \subsubsection{Thomas}
 
-Thomas performed imputation of the lat \& lon missing values by applying grouped mean imputation. The data was grouped by 'ward', 'lga' and then 'region'. This ensured that any missing values in either 'ward' or 'lga' did not result in missing lat / lon values. This also provides more accurate results than just 'regular' mean imputation, as the imputed values are localised. The Funder \& Installer columns contained 1000s of unique values. In Thomas' approach, he decided to group the column into categories: 'Charity', 'Government', 'Local Government', 'Private', 'Religious', 'Foreign', 'School' \& 'Unknown'. This was done to simplify the dataset, making it easier for the model to learn the distribution. Since, the columns had crossover between the values, this can be done in 1 step. Thomas also used the SMOTE-ENN algorithm from imblearn \cite{smote-enn}, to balanced the dataset, specificall the 'Functional - Needs Repair' class. Imbalanced datasets could potentially affect model performance, especially in tree-based models. Finally, 'gps-height' was normalised using a custom MinMaxScaler and a custom Z-Score Scaler. This was due to the prevelence of outliers in the 'gps-height' feature.
+Thomas performed imputation of the lat \& lon missing values by applying grouped mean imputation. The data was grouped by 'ward', 'lga' and then 'region'. This ensured that any missing values in either 'ward' or 'lga' did not result in missing lat / lon values. This provides more accurate results than 'regular' mean imputation, as the imputed values are localised. The Funder \& Installer columns contained 1000s of unique values. In Thomas' approach, he decided to group the column into categories: 'Charity', 'Government', 'Local Government', 'Private', 'Religious', 'Foreign', 'School' \& 'Unknown'. This was done to simplify the dataset, making it easier for the model to learn the distribution. Since, the columns had crossover between the values, this can be done in 1 step. Thomas also used the SMOTE-ENN algorithm from imblearn \cite{smote-enn}, to balanced the dataset, specificall the 'Functional - Needs Repair' class. Imbalanced datasets could potentially affect model performance, especially in tree-based models. Finally, 'gps-height' was normalised using a custom MinMaxScaler and a custom Z-Score Scaler. This was due to the prevelence of outliers in the 'gps-height' feature.
 
 \subsubsection{Jason}
 
-Due to the presence of missing data in the Latitude \& Longitude columns, Jason decided to apply mean imputation based on the Region column. The values of the Region column corresponds with the name of cities present in Tanzania. By calculating the  mean latitude and longitude value of each region, a rough estimation of the geographical location of wells with missing value could be known. 
+Due to the presence of missing data in the Latitude \& Longitude columns, Jason decided to apply mean imputation based on the Region column. \sout{The values of the Region column corresponds with the name of cities present in Tanzania.} By calculating the mean lat\sout{itude} and lon\sout{gitude} value of each region, a rough estimation of the \sout{geographical} location of wells with missing values could be known. 
 
-During the Data Analysis Phase, he noticed the Permit and Public Meeting columns had missing values. Upon further inspection, these two columns only contain the values of either 'True' or 'False'. Data Imputation was not done here due to the lack of valuable data present in the data set. To preserve the distribution of these two columns, a unique values known as 'Unknown' was given to rows with missing data.
+During \sout{the} Data Analysis \sout{Phase}, he noticed the Permit and Public Meeting columns had missing values. Upon further inspection, these two columns only contain the values of either 'True' or 'False'. Data Imputation was not done here due to the lack of valuable data present in the data set. To preserve the distribution of these two columns, a unique values known as 'Unknown' was given to rows with missing data.
 
-He performed data recategorisation on both funder and installer columns which contained 1000 - 2000 unique values. He first performed data cleaning to fix spelling mistakes that were present in each column. This was followed by identifying unique values with count above the threshold of 1000. Each unique value above the previously mentioned threshold would be classified as its own individual class while those below it would be classified under the 'Other' value. Data recategorisation would be able to reduce the number of unique values present to improve the models' training perforamance.
+He performed data recategorisation on both funder and installer columns which contained 1000\textcolor{red}{s}\sout{ - 2000} \textcolor{red}{of} unique values. He \sout{first} performed data cleaning to fix spelling mistakes that were present in each column. \sout{This was followed by identifying unique values with count above the threshold of 1000. Each unique value above the previously mentioned threshold would be classified as its own individual class while those below it would be classified under the 'Other' value.} \textcolor{red}{This was followed categorizing each value with a count of less than 1000 as 'Other'. Each unique value above a count of 1000 became it's own category.} Data recategorisation \sout{would be able to reduce the number of unique values present to} \textcolor{red}{might} improve the models' training perforamance.
 
-Although the number of unique values in the Region Column were minimal, he decided to reclassify them according to their geographical zones based on data that was provided by the Tanzania Water and Sanitation Network \cite{tawasanet}. This reduced the number of unique values of the Region Column to 7 from 21. New insights could potentially be drawn upon  based on the zone that the water wells is currently located i.
+\sout{Although the number of unique values in the Region Column were minimal,} \sout{h}\textcolor{red}{H}e decided to reclassify \sout{them} \textcolor{red}{the values in the region column} according to their geographical zones based on data that was provided by the Tanzania Water and Sanitation Network \cite{tawasanet}. This reduced the number of unique values of the Region Column to 7 from 21. New insights could potentially be drawn upon based on the zone that the water wells is currently located in.
 
-The data set provided had feature and target variables in the form of categorical form. he had converted these features into numerical form that is required of by ML models prior to training. He had encoded the values of the feature and target variables in the form of alphabetical order whereby a = 0, b = 1 etc. 
+The data set provided had feature and target variables in the form of categorical form. he had converted these features into numerical form \sout{that is} required \sout{of} by ML models \sout{prior to training}. \sout{He had encoded the values of the feature and target variables in the form of alphabetical order} \textcolor{red}{Each value was encoded in alphabetical order} whereby a = 0, b = 1 etc. 
 
 \subsection{Data Classification}
 
@@ -160,11 +161,11 @@ Furthermore, he used Weights and Biases (WandB) \cite{wandb} to analyse the subs
 
 \subsubsection{Jason}
 
-From the Random Forest feature importance and Chi-Squared Test, Jason had shortlisted 16 features that influenced the classification of Tanzanian Water Wells. Prior to model training, the dataset was subjected to a 80\%:20\% train test split. This was followed by normalising the testing and training set features with z-score normalisation.
+From the Random Forest feature importance and Chi-Squared Test, Jason \sout{had} shortlisted 16 features \sout{that influenced the classification of Tanzanian Water Wells}. Prior to model training, the dataset was subjected to a 80\%:20\% train test split. This was followed by normalising the testing and training set features with z-score normalisation.
 
-For this study, he considered three different machine learning models  (Random Forrest, XGBoost \& CatBoost). Hyperparameter tuning was conducted via GridSearchCV \cite{gridsearch} from the sklearn library. Upon completion of the hyperparameter tuning process, the most optimal parameters of each model were recorded before being passed for model training. 
+For this study, he considered three different \sout{machine learning} \textcolor{red}{ML} models  (Random Forrest, XGBoost \& CatBoost). Hyperparameter tuning was conducted via GridSearchCV \cite{gridsearch} \sout{from the sklearn library}. \sout{Upon completion of the hyperparameter tuning process, t}\textcolor{red}{T}he most optimal parameters of each model were recorded before being passed for model training. 
 
-To evaluate the performance of each model, Jason used three different evaluation methods. K-fold cross validation with the value of K being 5 , confusion matrix and receiver operating characteristic (ROC) curve. K-fold cross validations was used to evaluate the performance of the model on unseen data. Meanwhile, confusion matrix showcases the predictions which are labelled correctly and incorrectly by class. Although ROC Curves are usually meant for binary classification, it was extended to  be used for multiclass classification through pairwise comparison i.e., one class vs all other classes.   
+To evaluate the performance of each model, \sout{Jason used three different evaluation methods.} K-fold cross validation \textcolor{red}{(CV)} with \sout{the value of K being 5} \textcolor{red}{k=5} , confusion matrix and receiver operating characteristic (ROC) curve \textcolor{red}{were used}. K-fold \sout{cross validations} \textcolor{red}{CV} was used to evaluate the performance of the model on unseen data. Meanwhile, confusion matrix showcases the predictions which are labelled correctly and incorrectly by class. Although ROC Curves are usually meant for binary classification, it was extended to  be used for multiclass classification through pairwise comparison i.e., one class vs all other classes.   
 
 \section{Results} \label{ref:results}
 
@@ -194,7 +195,7 @@ An example of the construction year visulisations can be see in Fig. \ref{fig:co
 
 \subsubsection{Jason}
 
-As stated in Section III Methodology, Jason analysed the distribution of missing and unique values across all 38 feature columns. One key highlight of  this stage could be seen in Fig \ref{fig:lat_long_distribution}. This figure showcases the  presence of a large number for a particular value in both latitude and longitude columns which would have to be taken note of before proceeding with model training. Furthermore, he had noticed that they were a number of columns that were representing the same thing such as Source \& Source Type. This could be observed in Fig \ref{fig:source}. Other visualisations could be seen in the ipynb notebook submitted with this report.
+\sout{As stated in Section III Methodology,} Jason analysed the distribution of missing and unique values across all 38 feature columns. One \sout{key highlight} \textcolor{red}{example} of this \sout{stage could} \textcolor{red}{can} be seen in Fig \ref{fig:lat_long_distribution}. \sout{This figure showcases the presence of a large number for a particular value in both latitude and longitude columns which would have to be taken note of before proceeding with model training.} \textcolor{red}{We can see that each column contains an abnormal amount of a particular value. This will dealt with before training.} Furthermore, he had noticed that they were a number of columns that were representing the same thing such as Source \& Source Type. This could be observed in Fig \ref{fig:source}. Other visualisations could be seen in the ipynb notebook submitted with this report.
 
 \begin{figure*}[t]
     \centering
@@ -236,7 +237,7 @@ As stated in Section III Methodology, Jason analysed the distribution of missing
 
 \subsubsection{Thomas}
 
-Firstly, The results of the latitude and longitude can be seen in Fig. \ref{fig:lat_long_imputation}.
+Firstly, The results of the latitude and longitude imputation can be seen in Fig. \ref{fig:lat_long_imputation}.
 
 \begin{figure*}[t!]
   \centering
@@ -315,7 +316,7 @@ Thomas used the SMOTE-ENN algorithm to oversample the minority class. The result
 
 \subsubsection{Jason}
 
-As mentioned previously , Jason had performed some pre-processing on the Longitude, Latitude, Public Meeting \& Permit columns. Longitude \& latitude was imputed with mean based on its assigned region. On the other hand, a new variable known as "Unknown" was used to classify rows with missing data in Public Meeting \& Permit columns. Data reclassifications was also performed on funder, installer \& Region Columns. For both funder \& installer columns, he decided to classify unique values with values above 1000 as its own class while those with values lower than 1000 would be classified under "Other". The result of funder \& installer columns reclassification could be seen in Table \ref{tab:funder_installer_recategorise}. Jason utilised data provided by the Tanzanian Water and Sanitation Network to reduce the number of unique values in the Region Column. The graphical representation of the aforementioned pre-processing steps are represented in Fig .\ref{fig:jason_preprocessing}
+As mentioned \sout{previously} \textcolor{red}{in section \ref{ref:method}} ,Jason \sout{had} performed some pre-processing on the Longitude, Latitude, Public Meeting, Permit, \textcolor{red}{Funder \& Installer} columns. \sout{Longitude \& latitude was imputed with mean based on its assigned region. On the other hand, a new variable known as "Unknown" was used to classify rows with missing data in Public Meeting \& Permit columns. Data reclassifications was also performed on funder, installer \& Region Columns. For both funder \& installer columns, he decided to classify unique values with values above 1000 as its own class while those with values lower than 1000 would be classified under "Other".} The result of funder \& installer columns reclassification could be seen in Table \ref{tab:funder_installer_recategorise}. \sout{Jason utilised data provided by the Tanzanian Water and Sanitation Network to reduce the number of unique values in the Region Column.} The graphical representation of the aforementioned pre-processing steps \textcolor{red}{excluding the funder \& installer pre-processing} are represented in Fig .\ref{fig:jason_preprocessing}
 
 \begin{figure*}[t!]
   \centering
@@ -460,7 +461,7 @@ To relate this back to our research questions, we can say that these features ar
 
 Based on the results that were obtained from the random forest feature importance and Chi-Squared Test, Jason had decided to use the following features for his model: \textbf{'longitude\_imputation'}, \textbf{'latitude\_imputation'}, \textbf{'quantity'}, \textbf{'extraction\_type\_class'}, \textbf{'gps\_height'}, \textbf{'age'}, \textbf{'waterpoint\_type\_group'}, \textbf{'population\_original'}, \textbf{'payment\_type'}, \textbf{'source\_type'}, \textbf{'funder\_groups'}, \textbf{'basin'}, \textbf{'installer\_grouped'}, \textbf{'management'}, \textbf{'water\_quality'}, \textbf{'public\_meeting'}.
 
-To evaluate the three models that Jason had trained, he decided to use K-fold cross validation with K having a value of 5 and the plotting of confusion matrices. Important metrics such as precision,recall \& f1-score and K-fold cross validation accuracy score were also calculated. Precision,recall \& f1-score were calculated using macro average. The results of this evaluation can be seen in Table \ref{tab:jason_model}.
+To evaluate the three models that Jason had trained, he decided to use K-fold \sout{cross validation with K having a value of 5} \textcolor{red}{CV where k=5} and \sout{the plotting of} confusion matrices. Important metrics such as precision,recall \& f1-score and K-fold cross validation accuracy score were also calculated. Precision,recall \& f1-score were calculated using macro average. The results of this evaluation can be seen in Table \ref{tab:jason_model}.
 
 \begin{table}[H]
   \centering
@@ -478,7 +479,7 @@ To evaluate the three models that Jason had trained, he decided to use K-fold cr
   \end{tabular}
 \end{table}
 
-Receiver Operating Characteristic Curves (ROC) for each model were plotted and could be seen in Fig \ref{fig:roc_curve}.
+Receiver Operating Characteristic Curves (ROC) for each model \sout{were plotted and could} \textcolor{red}{can} be seen in Fig \ref{fig:roc_curve}.
 
 \begin{figure*}[t!]
   \centering
@@ -512,39 +513,31 @@ In this section, we discuss the results of our analysis. We compare each of our 
 
 \subsection{Pre-Processing}
 
-\subsubsection{Tom}
+We used many different approaches to pre-processing on this project. One such instance is in terms of scaling. Tom applied a MinMaxScaler only on one feature 'gps\_height'. However, Jason applied Z-Score Normalisation on every feature. Despite the presence of categorical data, Jason's method still produced high quality results. Our models performed equally, achieving an accuracy of 81\% and 80\%. This indicates that both normalisation methods could be considered acceptable in this study.
 
-Jason and I used many different approaches throughout the project. For instance, Jason utilized a StandardScaler to scale every feature by removing the mean and scaling to a unit variance. I did not scale any features except 'gps\_height', and even then I used a MinMaxScaler. Despite the presence of categorical data, Jason's method still produced high quality results. Another difference in pre-processing was the handling of the funder and installer columns. We both took different approaches to this, and in my opinion Jason's technique proved slightly better. By categorizing the entire dataset, valuable information was lost by not using the specific funders or installers. Jason's approached lost less information as only values with small counts were removed from the dataset and classified as 'Other'.
+Another aspect that was different was the handling of the funder \& installer columns. Jason decided to first fix the spelling mistakes before proceeding to classifying those unique values with value counts above 1000 as its own individual class while those below that threshold would be classified under the "Other" class. Tom decided to individually classify them in categories based on research. By doing this, Tom lost valuable information but not using the specific funders or installers. Jason's approach lost less information as only values with small counts were removed from the dataset and classified as "Other". Jason's technique proved slightly better.
 
-\subsubsection{Jason}
+One of the differences that could be observed in the Pre-processing stage of this study is the way we implemented mean imputation for the missing values in longitude \& latitude columns. Jason decided to utilise a simpler approach where the value was imputed based on a region's average value. However, Tom decided to impute them based on the order of 'ward', 'lga' and 'region'. Tom's method in theory should represent the data distribution better as it takes more specific features such as 'ward' \& 'lga' which are smaller than 'region'. The simpler approach that Jason took could skew the data towards the mean of a region which could result in some data being lost. But during model evaluation it was noted that the simpler approach resulted in better performance.
 
-One of the differences that could be observed in the Pre-processing stage of this study is the way Thomas and I implemented mean imputation for the missing values in longitude \& latitude columns. I decided to utilise a simpler approach where I imputed based on a region's average value. However, Tom decided to impute them based on the order of 'ward', 'lga' and 'region'. Tom's method in theory should represent the data distribution better as it takes more specific features such as 'ward' \& 'lga' which are smaller than 'region'. The simpler approach that I took could skew the data towards the mean of a region which could result in some data being lost. But during model evaluation it was noted that the simpler approach resulted in better performance.
 
-Another aspect that was different was the way that we performed data recategorisation on the funder and installer columns. I decided to first fix the spelling mistakes before proceeding to classifying those unique values with value counts above 1000 as its own individual class while those below that threshold would be classified under the "Other" class. Tom decided to individually classify them in categories based on his knowledge and online research. Initially, I felt that those unique values above 1000 should be their own category as they is large number of data samples whereby machine learning model can learn from. Those values less than 1000 should in theory not affect the model's training by much therefore classifying them as "Other" would be a safe option. By performing the recategorisation based on his own, Tom had a smaller number of categories than me at the cost of losing valuable information that could be obtained from unique values that were in large numbers.
-
-Although both of us had applied different normalisation methods i.e. Tom applied MinMaxScaler , I applied Z-Score Normalisation, our models performed fairly way achieving accuracy of 81\% and 80\% respectively. This indicates that both normalisation methods could be considered acceptable in this study.
 
 \subsection{Modelling}
 
-\subsubsection{Tom}
+The choice of hyper-parameter tuning methods between the two of us showcased the different ideologies that we had. Jason opted for a smaller but in depth search space with GridSearch while Tom opted for a broad but shallower search space with RandomSearch. RandomSearch enabled a wider exploration of hyperparameter ranges across various models, making it faster. On the other hand, GridSearch focused on specific potential hyperparameters, providing a more in-depth search. This is reflected in our results, as Jason's XGBoost out-performed Tom's XGBoost, yet the breadth of search allowed Tom to find the BaggingClassifier which performed well. Tom's Bagging Classifier slightly edged Jason's XGBoost in terms of accuracy (81\% vs 80\%).
 
-We also used different hyper-parameter tuning methods, specifically GridSearch (Jason) and RandomSearch (Tom). RandomSearch enabled a wider exploration of hyperparameter ranges across various models, making it faster. On the other hand, GridSearch focused on specific potential hyperparameters, providing a more in-depth search. I think this is reflected in our results, as Jason's XGBoost slightly out-performed my XGBoost on the test set, however the breadth of search allowed me to find the BaggingClassifier, which performed very well.
 
 \subsubsection{Jason}
 
 Tom started by modelling baseline models involving different algorithms without feature selection to gauge the performance of each model on this dataset. This was in contrast what I did as I already had an idea on what models to develop. Tom's method actually gave a better insight on the models that could potentially be suited for this dataset. This allowed him to narrow down the models that he should try to developed. I noticed that rushing towards the development of a model directly without any testing like what I did was unwise as it could lead to valuable time being wasted on models that do not perform well on this dataset.
 
-The choice of hyper-parameter tuning methods between the two of us showcased the different ideologies that we had. I opted for a smaller but in depth search space with Grid Search while Tom opted for a broad but shallower search space with Random Search. Compromises would have to made during hyper-parameter tuning, do we go for a more in depth but restricted search or a more broad but shallow search when improving model performance. Both approaches were able to achieve commendable results with Tom's Bagging Classifier slightly edging Jason's XGBoost in terms of accuracy (81\% vs 80\%)
-
 When we consider the models that both of us had trained, I find Tom's implementation of a Bagging Classifer rather interesting. Instead of developing a model that utilised only one algorithm, he decided to combine his developed XGBoost, CatBoost and HistGradientBoosting into a voting classifier. All three models were used to make predictions on unseen data and the algorithm that had the best performance would be selected to make the classification. A Bagging Classifier in this scenario could be seen as more robust in comparison with models that only  utilise one algorithm. The results from this study further echo the above sentiment with Tom's Bagging Classifier achieving better performance than my XGBoost.
 
-\subsection{Literature Discussion}
+\subsubsection{Tom}
 
-When comparing to the TabNet implementation by Pathak et al \cite{pathak2023pump}, we can see that our best classifiers were out-performed by TabNet by at least 2\%. This is quite significant. It's understandable that this is the case due to the capabilities of Transformers, which are arguably the most popular model right now. 
+Jason performed more analysis of his models than myself. I think this led to more iterative improvements. In my cases, post hyper-parameter tuning the models were simply evaluated on the test set using Accuracy \& F1-Score. However, Jason used K-Fold CV and ROC Curves to really understand his models, and I think in the long run this resulted in improved performance. He could accurately see where his models required improvement.
 
-We also reviewed Pham et al \cite{Pham_2018} and found that their produced Neural Network (NN) was not as high performing as some more lightweight models. XGBoost / HistGradientBoost and BaggingClassifier all out-perform the NN. These lightweight models also are much faster to train than an NN, so it is much more efficient to use these models on a dataset such as Pump It Up.
+Jason also produced a much more thorough statistical analysis, which I would have struggled without. I thank our 'Christmas-Tree' management approach for this insight, as Jason was able to share information with me I would not have be able to find otherwise.
 
-Upon comparison with the findings obtained from Jithin Paul \cite{Paul_2023} with ours, we observed that his Random Forrest Classier had surpassed our Bagging Classifier by a fine margin of 0.008\%. This slight increase in terms of accuracy could be seen due to the number of features that was used for model training. Specifically, Paul had utilised 25 features while only 19 features were considered in our study. With a larger number of features, it could be theorise that machine learning models would be able to extract insights better leading to better classification performance.
 
 \section{Conclusion}
 
