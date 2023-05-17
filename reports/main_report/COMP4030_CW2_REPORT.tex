@@ -40,7 +40,7 @@ hfyyl5@nottingham.ac.uk}
 \maketitle
 
 \begin{abstract}
-  This paper details our approaches and results for the COMP4030 CW2. The goal was to predict the status ('Functional', 'Functional - Needs Repair' \& 'Non-Functional') of water wells in Tanzania. This is important as not only does knowing the status of the well help keep the total percentage of functioning wells higher, but it also allows for more effective spending on repairs. The most important features included 'age', 'season\_when\_recorded', 'height\_above\_sealevel' \& 'extraction\_type'. The best performing models were XGBoost and BaggingClassifier.
+  This paper details our approaches and results for the COMP4030 CW2. The goal was to predict the status ('Functional', 'Functional - Needs Repair' \& 'Non-Functional') of water wells in Tanzania. This is important as not only does knowing the status of the well help keep the total percentage of functioning wells higher, but it also allows for more effective spending on repairs. The most important features included 'age', 'season\_when\_recorded', 'height\_above\_sealevel' \& 'extraction\_type'. The best performing models were XGBoost and VotingClassifier.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -525,14 +525,14 @@ One of the differences that could be observed in the Pre-processing stage of thi
 
 \subsection{Modelling}
 
-The choice of hyper-parameter tuning methods between the two of us showcased the different ideologies that we had. Jason opted for a smaller but in depth search space with GridSearch while Tom opted for a broad but shallower search space with RandomSearch. RandomSearch enabled a wider exploration of hyperparameter ranges across various models, making it faster. On the other hand, GridSearch focused on specific potential hyperparameters, providing a more in-depth search. This is reflected in our results, as Jason's XGBoost out-performed Tom's XGBoost, yet the breadth of search allowed Tom to find the BaggingClassifier which performed well. Tom's Bagging Classifier slightly edged Jason's XGBoost in terms of accuracy (81\% vs 80\%).
+The choice of hyper-parameter tuning methods between the two of us showcased the different ideologies that we had. Jason opted for a smaller but in depth search space with GridSearch while Tom opted for a broad but shallower search space with RandomSearch. RandomSearch enabled a wider exploration of hyperparameter ranges across various models, making it faster. On the other hand, GridSearch focused on specific potential hyperparameters, providing a more in-depth search. This is reflected in our results, as Jason's XGBoost out-performed Tom's XGBoost, yet the breadth of search allowed Tom to find the Voting Classifier which performed well. Tom's Voting Classifier slightly edged Jason's XGBoost in terms of accuracy (81\% vs 80\%).
 
 
 \subsubsection{Jason}
 
 Tom started by modelling baseline models involving different algorithms without feature selection to gauge the performance of each model on this dataset. This was in contrast what I did as I already had an idea on what models to develop. Tom's method actually gave a better insight on the models that could potentially be suited for this dataset. This allowed him to narrow down the models that he should try to developed. I noticed that rushing towards the development of a model directly without any testing like what I did was unwise as it could lead to valuable time being wasted on models that do not perform well on this dataset.
 
-When we consider the models that both of us had trained, I find Tom's implementation of a Bagging Classifer rather interesting. Instead of developing a model that utilised only one algorithm, he decided to combine his developed XGBoost, CatBoost and HistGradientBoosting into a voting classifier. All three models were used to make predictions on unseen data and the algorithm that had the best performance would be selected to make the classification. A Bagging Classifier in this scenario could be seen as more robust in comparison with models that only  utilise one algorithm. The results from this study further echo the above sentiment with Tom's Bagging Classifier achieving better performance than my XGBoost.
+When we consider the models that both of us had trained, I find Tom's implementation of a Voting Classifer rather interesting. Instead of developing a model that utilised only one algorithm, he decided to combine his developed XGBoost, CatBoost, HistGradientBoosting and BaggingClassifier into a voting classifier. All three models were used to make predictions on unseen data and the algorithm that had the best performance would be selected to make the classification. A Voting Classifier in this scenario could be seen as more robust in comparison with models that only  utilise one algorithm. The results from this study further echo the above sentiment with Tom's Voting Classifier achieving better performance than my XGBoost.
 
 \subsubsection{Tom}
 
@@ -543,7 +543,7 @@ Jason also produced a much more thorough statistical analysis, which I would hav
 
 \section{Conclusion}
 
-Overall, we have successfully developed and evaluated 7 different ML models on the Pump It Up dataset. Tom's Bagging Classifier performed the best with a classification accuracy of 81\%. Our  models have successfully showcased the feasibility of applying machine learning in order to aid the Tanzanian Government in classifying the status of wells based on historical data. Through machine learning, the Tanzanian Government would be able to act quicker in identifying and repairing wells that are non functional for the benefit of their people. 
+Overall, we have successfully developed and evaluated 7 different ML models on the Pump It Up dataset. Tom's Voting Classifier performed the best with a classification accuracy of 81\%. Our  models have successfully showcased the feasibility of applying machine learning in order to aid the Tanzanian Government in classifying the status of wells based on historical data. Through machine learning, the Tanzanian Government would be able to act quicker in identifying and repairing wells that are non functional for the benefit of their people. 
 
 One of the shortcomings of this study is that the dataset provided was incomplete and had invalid values. Important values such as construction year which would typically affect the status of a well was missing in the regions of 20,000s. Although imputation was done to mitigate the effects of invalid data, it is still not a proper representation of the data that the ML would be faced with during deployment.
 
