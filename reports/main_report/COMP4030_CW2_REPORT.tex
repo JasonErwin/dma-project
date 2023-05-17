@@ -106,7 +106,7 @@ Thomas visualized the correlation between 'construction\_year'and other features
 
 \subsubsection{Jason}
 
-Jason checked the number of missing and unique values across 38 features provided\sout{. He wanted} to identify features that would require imputation\sout{s due to missing or invalid values}. In addition, this step allowed him to distinguish features which would have to be recategorised due to the large number of unique values present. He also generated countplots for each of the previously mentioned features based on water wells' status. These plots allowed him to visualise the distribution of the wells' status based on features. Thus, making it easier to identify features that could possibly influence the status of a water well.
+Jason checked the number of missing and unique values across 38 features provided to identify features that would require imputation. In addition, this step allowed him to distinguish features which would have to be recategorised due to the large number of unique values present. He also generated countplots for each of the previously mentioned features based on water wells' status. These plots allowed him to visualise the distribution of the wells' status based on features. Thus, making it easier to identify features that could possibly influence the status of a water well.
 
 \subsection{Data Preprocessing}
 
@@ -116,15 +116,15 @@ Thomas performed imputation of the lat \& lon missing values by applying grouped
 
 \subsubsection{Jason}
 
-Due to the presence of missing data in the Latitude \& Longitude columns, Jason decided to apply mean imputation based on the Region column. \sout{The values of the Region column corresponds with the name of cities present in Tanzania.} By calculating the mean lat\sout{itude} and lon\sout{gitude} value of each region, a rough estimation of the \sout{geographical} location of wells with missing values could be known. 
+Due to the presence of missing data in the Latitude \& Longitude columns, Jason decided to apply mean imputation based on the Region column. By calculating the mean lat and lon value of each region, a rough estimation of the  location of wells with missing values could be known. 
 
-During \sout{the} Data Analysis \sout{Phase}, he noticed the Permit and Public Meeting columns had missing values. Upon further inspection, these two columns only contain the values of either 'True' or 'False'. Data Imputation was not done here due to the lack of valuable data present in the data set. To preserve the distribution of these two columns, a unique values known as 'Unknown' was given to rows with missing data.
+During Data Analysis, he noticed the Permit and Public Meeting columns had missing values. Upon further inspection, these two columns only contain the values of either 'True' or 'False'. Data Imputation was not done here due to the lack of valuable data present in the data set. To preserve the distribution of these two columns, a unique values known as 'Unknown' was given to rows with missing data.
 
-He performed data recategorisation on both funder and installer columns which contained 1000\textcolor{red}{s}\sout{ - 2000} \textcolor{red}{of} unique values. He \sout{first} performed data cleaning to fix spelling mistakes that were present in each column. \sout{This was followed by identifying unique values with count above the threshold of 1000. Each unique value above the previously mentioned threshold would be classified as its own individual class while those below it would be classified under the 'Other' value.} \textcolor{red}{This was followed categorizing each value with a count of less than 1000 as 'Other'. Each unique value above a count of 1000 became it's own category.} Data recategorisation \sout{would be able to reduce the number of unique values present to} \textcolor{red}{might} improve the models' training perforamance.
+He performed data recategorisation on both funder and installer columns which contained 1000s of unique values. He performed data cleaning to fix spelling mistakes that were present in each column. This was followed categorizing each value with a count of less than 1000 as 'Other'. Each unique value above a count of 1000 became it's own category. Data recategorisation might improve the models' training perforamance.
 
-\sout{Although the number of unique values in the Region Column were minimal,} \sout{h}\textcolor{red}{H}e decided to reclassify \sout{them} \textcolor{red}{the values in the region column} according to their geographical zones based on data that was provided by the Tanzania Water and Sanitation Network \cite{tawasanet}. This reduced the number of unique values of the Region Column to 7 from 21. New insights could potentially be drawn upon based on the zone that the water wells is currently located in.
+He decided to reclassify the values in the region column according to their geographical zones based on data that was provided by the Tanzania Water and Sanitation Network \cite{tawasanet}. This reduced the number of unique values of the Region Column to 7 from 21. New insights could potentially be drawn upon based on the zone that the water wells is currently located in.
 
-The data set provided had feature and target variables in the form of categorical form. he had converted these features into numerical form \sout{that is} required \sout{of} by ML models \sout{prior to training}. \sout{He had encoded the values of the feature and target variables in the form of alphabetical order} \textcolor{red}{Each value was encoded in alphabetical order} whereby a = 0, b = 1 etc. 
+The data set provided had feature and target variables in the form of categorical form. he had converted these features into numerical form required by ML models. Each value was encoded in alphabetical order whereby a = 0, b = 1 etc. 
 
 \subsection{Data Classification}
 
@@ -161,11 +161,11 @@ Furthermore, he used Weights and Biases (WandB) \cite{wandb} to analyse the subs
 
 \subsubsection{Jason}
 
-From the Random Forest feature importance and Chi-Squared Test, Jason \sout{had} shortlisted 16 features \sout{that influenced the classification of Tanzanian Water Wells}. Prior to model training, the dataset was subjected to a 80\%:20\% train test split. This was followed by normalising the testing and training set features with z-score normalisation.
+From the Random Forest feature importance and Chi-Squared Test, Jason shortlisted 16 features. Prior to model training, the dataset was subjected to a 80\%:20\% train test split. This was followed by normalising the testing and training set features with z-score normalisation.
 
-For this study, he considered three different \sout{machine learning} \textcolor{red}{ML} models  (Random Forrest, XGBoost \& CatBoost). Hyperparameter tuning was conducted via GridSearchCV \cite{gridsearch} \sout{from the sklearn library}. \sout{Upon completion of the hyperparameter tuning process, t}\textcolor{red}{T}he most optimal parameters of each model were recorded before being passed for model training. 
+For this study, he considered three different ML models  (Random Forrest, XGBoost \& CatBoost). Hyperparameter tuning was conducted via GridSearchCV \cite{gridsearch}. The most optimal parameters of each model were recorded before being passed for model training. 
 
-To evaluate the performance of each model, \sout{Jason used three different evaluation methods.} K-fold cross validation \textcolor{red}{(CV)} with \sout{the value of K being 5} \textcolor{red}{k=5} , confusion matrix and receiver operating characteristic (ROC) curve \textcolor{red}{were used}. K-fold \sout{cross validations} \textcolor{red}{CV} was used to evaluate the performance of the model on unseen data. Meanwhile, confusion matrix showcases the predictions which are labelled correctly and incorrectly by class. Although ROC Curves are usually meant for binary classification, it was extended to  be used for multiclass classification through pairwise comparison i.e., one class vs all other classes.   
+To evaluate the performance of each model, K-fold cross validation (CV) with k=5, confusion matrix and receiver operating characteristic (ROC) curve were used. K-fold cross validations CV was used to evaluate the performance of the model on unseen data. Meanwhile, confusion matrix showcases the predictions which are labelled correctly and incorrectly by class. Although ROC Curves are usually meant for binary classification, it was extended to  be used for multiclass classification through pairwise comparison i.e., one class vs all other classes.   
 
 \section{Results} \label{ref:results}
 
@@ -195,7 +195,7 @@ An example of the construction year visulisations can be see in Fig. \ref{fig:co
 
 \subsubsection{Jason}
 
-\sout{As stated in Section III Methodology,} Jason analysed the distribution of missing and unique values across all 38 feature columns. One \sout{key highlight} \textcolor{red}{example} of this \sout{stage could} \textcolor{red}{can} be seen in Fig \ref{fig:lat_long_distribution}. \sout{This figure showcases the presence of a large number for a particular value in both latitude and longitude columns which would have to be taken note of before proceeding with model training.} \textcolor{red}{We can see that each column contains an abnormal amount of a particular value. This will dealt with before training.} Furthermore, he had noticed that they were a number of columns that were representing the same thing such as Source \& Source Type. This could be observed in Fig \ref{fig:source}. Other visualisations could be seen in the ipynb notebook submitted with this report.
+Jason analysed the distribution of missing and unique values across all 38 feature columns. One example of this can be seen in Fig \ref{fig:lat_long_distribution}. We can see that each column contains an abnormal amount of a particular value. This will dealt with before training. Furthermore, he had noticed that they were a number of columns that were representing the same thing such as Source \& Source Type. This could be observed in Fig \ref{fig:source}. Other visualisations could be seen in the ipynb notebook submitted with this report.
 
 \begin{figure*}[t]
     \centering
@@ -316,7 +316,7 @@ Thomas used the SMOTE-ENN algorithm to oversample the minority class. The result
 
 \subsubsection{Jason}
 
-As mentioned \sout{previously} \textcolor{red}{in section \ref{ref:method}} ,Jason \sout{had} performed some pre-processing on the Longitude, Latitude, Public Meeting, Permit, \textcolor{red}{Funder \& Installer} columns. \sout{Longitude \& latitude was imputed with mean based on its assigned region. On the other hand, a new variable known as "Unknown" was used to classify rows with missing data in Public Meeting \& Permit columns. Data reclassifications was also performed on funder, installer \& Region Columns. For both funder \& installer columns, he decided to classify unique values with values above 1000 as its own class while those with values lower than 1000 would be classified under "Other".} The result of funder \& installer columns reclassification could be seen in Table \ref{tab:funder_installer_recategorise}. \sout{Jason utilised data provided by the Tanzanian Water and Sanitation Network to reduce the number of unique values in the Region Column.} The graphical representation of the aforementioned pre-processing steps \textcolor{red}{excluding the funder \& installer pre-processing} are represented in Fig .\ref{fig:jason_preprocessing}
+As mentioned in section \ref{ref:method}, Jason performed some pre-processing on the Longitude, Latitude, Public Meeting, Permit, Funder \& Installer columns. The result of funder \& installer columns reclassification could be seen in Table \ref{tab:funder_installer_recategorise}. The graphical representation of the aforementioned pre-processing steps excluding the funder \& installer pre-processing are represented in Fig .\ref{fig:jason_preprocessing}
 
 \begin{figure*}[t!]
   \centering
@@ -461,7 +461,7 @@ To relate this back to our research questions, we can say that these features ar
 
 Based on the results that were obtained from the random forest feature importance and Chi-Squared Test, Jason had decided to use the following features for his model: \textbf{'longitude\_imputation'}, \textbf{'latitude\_imputation'}, \textbf{'quantity'}, \textbf{'extraction\_type\_class'}, \textbf{'gps\_height'}, \textbf{'age'}, \textbf{'waterpoint\_type\_group'}, \textbf{'population\_original'}, \textbf{'payment\_type'}, \textbf{'source\_type'}, \textbf{'funder\_groups'}, \textbf{'basin'}, \textbf{'installer\_grouped'}, \textbf{'management'}, \textbf{'water\_quality'}, \textbf{'public\_meeting'}.
 
-To evaluate the three models that Jason had trained, he decided to use K-fold \sout{cross validation with K having a value of 5} \textcolor{red}{CV where k=5} and \sout{the plotting of} confusion matrices. Important metrics such as precision,recall \& f1-score and K-fold cross validation accuracy score were also calculated. Precision,recall \& f1-score were calculated using macro average. The results of this evaluation can be seen in Table \ref{tab:jason_model}.
+To evaluate the three models that Jason had trained, he decided to use K-fold CV where k=5 and confusion matrices. Important metrics such as precision,recall \& f1-score and K-fold cross validation accuracy score were also calculated. Precision,recall \& f1-score were calculated using macro average. The results of this evaluation can be seen in Table \ref{tab:jason_model}.
 
 \begin{table}[H]
   \centering
@@ -479,7 +479,7 @@ To evaluate the three models that Jason had trained, he decided to use K-fold \s
   \end{tabular}
 \end{table}
 
-Receiver Operating Characteristic Curves (ROC) for each model \sout{were plotted and could} \textcolor{red}{can} be seen in Fig \ref{fig:roc_curve}.
+Receiver Operating Characteristic Curves (ROC) for each model can be seen in Fig \ref{fig:roc_curve}.
 
 \begin{figure*}[t!]
   \centering
@@ -546,6 +546,10 @@ Overall, we have successfully developed and evaluated 7 different ML models on t
 One of the shortcomings of this study is that the dataset provided was incomplete and had invalid values. Important values such as construction year which would typically affect the status of a well was missing in the regions of 20,000s. Although imputation was done to mitigate the effects of invalid data, it is still not a proper representation of the data that the ML would be faced with during deployment.
 
 Unfortunately, one of our supplementary research questions: \textbf{Could we use our results to ensure that the wells are built and repaired so that fewer wells are non functional?} was not answered in this study due to the lack of relevant data in the Pump It Up dataset. Moving forward, we seek to obtain additional data from Taarifa and Tanzanian Ministry of Water to be able to calculate the lifetime and decay rate of wells as mentioned by Pham et al \cite{Pham_2018}. Both of these metrics would allow us to have a better understanding of the lifetime of a well and how long it takes for a well to be non functional. Furthermore, we would like to explore the possibility of applying more state of the art ML models i.e. Transformers on the Pump It Up dataset as only traditional ML models were considered in this study. 
+
+\section{Contributions}
+
+We each contributed equally. For the programming, please view the comments at the top of each cell of the submitted notebook to see the author. In the report, Thomas wrote the Literature Review in the report, and Jason did the conclusion. We worked on the remaining sections together.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
