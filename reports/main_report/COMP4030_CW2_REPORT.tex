@@ -87,7 +87,7 @@ This results in two main benefits. Firstly, it allows us to research a large num
 
 \section{Literature Review}
 
-One study by Pathak et al. (2023) \cite{pathak2023pump} compared the performance of TabNet, a sequential attentive classification architecutre designed for tabular data, and tree-based approaches such as XBBoost. They found that TabNet outpeformed XGBoost, boasting an 83\% accuracy compared to XGBoosts 78\%. TabNet makes use of Transformers, a machine learning algorithm which uses self-attention to differentially weight the significance of each part of the input. A point of note is that TabNet does not require feature engineering to perform at these standards. We have not used TabNet in our report, as our primary goal was to showcase an end-to-end machine learning solution, and this includes feature enginering. However, it provides an interesting comparision.
+One study by Pathak et al. (2023) \cite{pathak2023pump} compared the performance of TabNet, a sequential attentive classification architecture designed for tabular data, and tree-based approaches such as XBBoost. They found that TabNet outperformed XGBoost, boasting an 83\% accuracy compared to XGBoosts 78\%. TabNet makes use of Transformers, a machine learning algorithm which uses self-attention to differentially weight the significance of each part of the input. A point of note is that TabNet does not require feature engineering to perform at these standards. We have not used TabNet in our report, as our primary goal was to showcase an end-to-end machine learning solution, and this includes feature engineering. However, it provides an interesting comparison.
 
 Pham et al studied fully connected neural networks on the Pump it Up dataset \cite{Pham_2018}, settling on a model with 7 hidden layers and cross-entropy loss as the loss function. Their trained model achieved a 78.6\% accuracy rate on the test dataset. Although our project has prioritized tree-based methods for their speed, it would be interesting to compare our results with those of a neural network.
 
@@ -102,7 +102,7 @@ When conducting data analysis, the python library Seaborn \cite{seaborn} was our
 
 \subsubsection{Thomas}
 
-Thomas visualized the correlation between 'construction\_year'and other features in the dataset. 'construction\_year' had a number of missing values, therefore these graphs could determine the possibility of using other features to impute the missing values.
+Thomas visualized the correlation between 'construction\_year' and other features in the dataset. 'construction\_year' had a number of missing values, therefore these graphs could determine the possibility of using other features to impute the missing values.
 
 \subsubsection{Jason}
 
@@ -112,7 +112,7 @@ Jason checked the number of missing and unique values across 38 features provide
 
 \subsubsection{Thomas}
 
-Thomas performed imputation of the lat \& lon missing values by applying grouped mean imputation. The data was grouped by 'ward', 'lga' and then 'region'. This ensured that any missing values in either 'ward' or 'lga' did not result in missing lat / lon values. This provides more accurate results than 'regular' mean imputation, as the imputed values are localised. The Funder \& Installer columns contained 1000s of unique values. In Thomas' approach, he decided to group the column into categories: 'Charity', 'Government', 'Local Government', 'Private', 'Religious', 'Foreign', 'School' \& 'Unknown'. This was done to simplify the dataset, making it easier for the model to learn the distribution. Since, the columns had crossover between the values, this can be done in 1 step. Thomas also used the SMOTE-ENN algorithm from imblearn \cite{smote-enn}, to balanced the dataset, specificall the 'Functional - Needs Repair' class. Imbalanced datasets could potentially affect model performance, especially in tree-based models. Finally, 'gps-height' was normalised using a custom MinMaxScaler and a custom Z-Score Scaler. This was due to the prevelence of outliers in the 'gps-height' feature.
+Thomas performed imputation of the lat \& lon missing values by applying grouped mean imputation. The data was grouped by 'ward', 'lga' and then 'region'. This ensured that any missing values in either 'ward' or 'lga' did not result in missing lat / lon values. This provides more accurate results than 'regular' mean imputation, as the imputed values are localised. The Funder \& Installer columns contained 1000s of unique values. In Thomas' approach, he decided to group the column into categories: 'Charity', 'Government', 'Local Government', 'Private', 'Religious', 'Foreign', 'School' \& 'Unknown'. This was done to simplify the dataset, making it easier for the model to learn the distribution. Since, the columns had crossover between the values, this can be done in 1 step. Thomas also used the SMOTE-ENN algorithm from imblearn \cite{smote-enn}, to balanced the dataset, specifically the 'Functional - Needs Repair' class. Imbalanced datasets could potentially affect model performance, especially in tree-based models. Finally, 'gps-height' was normalised using a custom MinMaxScaler and a custom Z-Score Scaler. This was due to the prevalence of outliers in the 'gps-height' feature.
 
 \subsubsection{Jason}
 
@@ -120,7 +120,7 @@ Due to the presence of missing data in the Latitude \& Longitude columns, Jason 
 
 During Data Analysis, he noticed the Permit and Public Meeting columns had missing values. Upon further inspection, these two columns only contain the values of either 'True' or 'False'. Data Imputation was not done here due to the lack of valuable data present in the data set. To preserve the distribution of these two columns, a unique values known as 'Unknown' was given to rows with missing data.
 
-He performed data recategorisation on both funder and installer columns which contained 1000s of unique values. He performed data cleaning to fix spelling mistakes that were present in each column. This was followed categorizing each value with a count of less than 1000 as 'Other'. Each unique value above a count of 1000 became it's own category. Data recategorisation might improve the models' training perforamance.
+He performed data re-categorisation on both funder and installer columns which contained 1000s of unique values. He performed data cleaning to fix spelling mistakes that were present in each column. This was followed categorizing each value with a count of less than 1000 as 'Other'. Each unique value above a count of 1000 became it's own category. Data re-categorisation might improve the models' training performance.
 
 He decided to reclassify the values in the region column according to their geographical zones based on data that was provided by the Tanzania Water and Sanitation Network \cite{tawasanet}. This reduced the number of unique values of the Region Column to 7 from 21. New insights could potentially be drawn upon based on the zone that the water wells is currently located in.
 
@@ -157,7 +157,7 @@ Initially, we focused on testing the performance of different algorithms without
 
 Thomas trained the 4 top models (XGBoost, CatBoost, Bagging \& HGBoost) on the SMOTE balanced dataset and compared the results to models trained on the imbalanced dataset. The results were also compared when optimizing for 'recall\_macro' or 'accuracy'. Recall is usually a better metric for imbalanced datasets, as accuracy can often misrepresent the truth. 'recall\_macro' takes an average of the recall for all 3 classes, which makes it a good metric to use.
 
-Furthermore, he used Weights and Biases (WandB) \cite{wandb} to analyse the subset of features produced by the Chi-Squared Test and RandomForest. WandB served as an accesible MLOps platform for experiment tracking. Multiple classifiers were trained on different feature subsets (ranging from sizes 0.75N to N, where N is the size of the original feature set), and tracked this information in WandB. WandB allows us to quickly filter for the best performing 'runs', and the feature subset used. He also used WandB to further analyse the results of his cross-validation hyper-parameter tuning, in much a similar process to feature selection.
+Furthermore, he used Weights and Biases (WandB) \cite{wandb} to analyse the subset of features produced by the Chi-Squared Test and RandomForest. WandB served as an accessible MLOps platform for experiment tracking. Multiple classifiers were trained on different feature subsets (ranging from sizes 0.75N to N, where N is the size of the original feature set), and tracked this information in WandB. WandB allows us to quickly filter for the best performing 'runs', and the feature subset used. He also used WandB to further analyse the results of his cross-validation hyper-parameter tuning, in much a similar process to feature selection.
 
 \subsubsection{Jason}
 
@@ -175,7 +175,7 @@ All results are rounded to 2 or 3 significant figures. The best performing model
 
 \subsubsection{Thomas}
 
-An example of the construction year visulisations can be see in Fig. \ref{fig:construction_year}. From this, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. The same is true across the other visualisations produced (see the accompanying ipynb for more details). For this reason, the missing values in the Construction year were kept as 'Unknown'. The distribution of the status group values in 'Unknown' or 'Not Unknown' construction year values can be seen in Fig \ref{fig:construction_year}.
+An example of the construction year visualisations can be see in Fig. \ref{fig:construction_year}. From this, we can see that there is a slight variation in Waterpoint Type usage across decades, but nothing of significance. The same is true across the other visualisations produced (see the accompanying ipynb for more details). For this reason, the missing values in the Construction year were kept as 'Unknown'. The distribution of the status group values in 'Unknown' or 'Not Unknown' construction year values can be seen in Fig \ref{fig:construction_year}.
 
 \begin{figure*}[t!]
     \centering
@@ -258,7 +258,7 @@ Firstly, The results of the latitude and longitude imputation can be seen in Fig
   \begin{subfigure}[t]{0.3\textwidth}
       \centering
       \includegraphics[height=1.5in]{figures/tom_impute_lat_3}
-      \caption{Imputated Latitude \& Longitude Overlayed onto a map of Tanzania}
+      \caption{Imputed Latitude \& Longitude overlaid onto a map of Tanzania}
   \end{subfigure}
   ~
   \caption{Latitude \& Longitude Imputation}
@@ -343,7 +343,7 @@ As mentioned in section \ref{ref:method}, Jason performed some pre-processing on
    \begin{subfigure}[t]{0.225\textwidth}
       \centering
       \includegraphics[height=1.35in]{figures/jason_zones.png}
-      \caption{Region Column Distribution After Recategorisation}
+      \caption{Region Column Distribution After Re-categorisation}
   \end{subfigure}
   ~
   \caption{Results of Data Pre-processing}
@@ -395,7 +395,7 @@ Post hyper-parameter tuning,accuracy, precision ('macro'), recall ('macro') and 
     \hline
     \textbf{Scoring} & \textbf{Dataset} & \textbf{Model} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} \\
     \hline
-    \multirow{2}{*}{Recall Macro} & \multirow{4}{*}{Balanced} & XGBoost & 0.802 & 0.701 & 0.668 & 0.683 \\
+    \multirow{2}{*}{Recall Macro} & \multirow{4}{*}{Balanced} & XGBoost & 0.802 & 0.706 & 0.668 & 0.683 \\
     & & CatBoost & 0.783 & 0.669 & 0.660 & 0.664 \\
     & & HistGradientBoosting & 0.796 & 0.693 & 0.665 & 0.677 \\
     & & BaggingClassifier & 0.803 & 0.703 & \textbf{0.676} & \textbf{0.687} \\
@@ -405,15 +405,15 @@ Post hyper-parameter tuning,accuracy, precision ('macro'), recall ('macro') and 
     & & HistGradientBoosting & 0.806 & 0.730 & 0.658 & 0.681 \\
     & & BaggingClassifier & 0.803 & 0.722 & 0.660 & 0.681 \\
     \hline
-    \multirow{2}{*}{Accuracy} & \multirow{4}{*}{Balanced} & XGBoost & 0.800 & 0.700 & 0.662 &  0.677 \\
-    & & CatBoost & 0.787 & 0.678 & 0.665 & 0.670 \\
-    & & HistGradientBoosting & 0.797 & 0.699 & 0.666 & 0.680 \\
-    & & BaggingClassifier & 0.801 & 0.701 & 0.671 & 0.684 \\
+    \multirow{2}{*}{Accuracy} & \multirow{4}{*}{Balanced} & XGBoost & 0.802 & 0.706 & 0.668 &  0.683 \\
+    & & CatBoost & 0.788 & 0.687 & 0.672 & 0.679 \\
+    & & HistGradientBoosting & 0.796 & 0.693 & 0.665 & 0.678 \\
+    & & BaggingClassifier & 0.803 & 0.703 & 0.676 & 0.687 \\
     \cline{2-7}
-    & \multirow{4}{*}{Imbalanced} & XGBoost & 0.804 & \textbf{0.748} & 0.648 & 0.676 \\
-    & & CatBoost & 0.797 & 0.753 & 0.635 & 0.665\\
-    & & HistGradientBoosting & 0.806 & 0.733 & 0.662 & 0.686 \\
-    & & BaggingClassifier & \textbf{0.811} & 0.741 & 0.656 & 0.681 \\
+    & \multirow{4}{*}{Imbalanced} & XGBoost & 0.806 & \textbf{0.758} & 0.648 & 0.678 \\
+    & & CatBoost & 0.797 & 0.754 & 0.633 & 0.662\\
+    & & HistGradientBoosting & 0.806 & 0.730 & 0.658 & 0.680 \\
+    & & BaggingClassifier & \textbf{0.810} & 0.742 & 0.656 & 0.682 \\
     \hline
   \end{tabular}
 \end{table*}
@@ -440,7 +440,7 @@ Thomas produced the two confusion matrices using an XGBoost, see Fig. \ref{fig:c
   \label{fig:confusion_matrices}
 \end{figure*}
 
-Since the difference between different models and datasets is neglible, Thomas decided to combine all the models to create a VotingClassifier to possibly squeeze out some extra performance. These results can be seen in Table \ref{tab:voting_classification_results}
+Since the difference between different models and datasets is negligible, Thomas decided to combine all the models to create a VotingClassifier to possibly squeeze out some extra performance. These results can be seen in Table \ref{tab:voting_classification_results}
 
 \begin{table}[H]
   \centering
